@@ -4,6 +4,9 @@
       tools:showIn="navigation_view">
 
     <group android:checkableBehavior="single">
+        <item android:id="@+id/nav_vesti"
+              android:icon="@drawable/ic_newspaper"
+              android:title="Vesti"/>
         <item android:id="@+id/nav_stranice_predmeta"
               android:icon="@drawable/ic_stranica_predmeta"
               android:title="Stranice Predmeta"/>
