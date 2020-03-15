@@ -6,6 +6,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -40,6 +42,7 @@ public class NewsFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     public void onRefresh() {
 
         Log.i("REFRESH","REEEEEEEEEE");
+        Toast.makeText(view.getContext(),"TEST",Toast.LENGTH_LONG).show();
         //swipeLayout.setRefreshing(false);
 
     }
