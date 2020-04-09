@@ -1,4 +1,4 @@
-package marko.mitrovic.singidroid4;
+package marko.mitrovic.singidroid4.fragments;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import marko.mitrovic.singidroid4.MainActivity;
+import marko.mitrovic.singidroid4.R;
 
 public class AboutFragment extends Fragment {
     private View view;
