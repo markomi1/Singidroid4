@@ -56,7 +56,6 @@ public class InitSlide1 extends Fragment implements ISlidePolicy {
     @Nullable
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(this.layoutResId, container, false);
-        switchBtn = view.findViewById(R.id.switch12);
         progressBar = (ProgressBar) view.findViewById(R.id.progressbar);
 
 

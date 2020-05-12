@@ -4,7 +4,7 @@
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:background="@android:color/white"
+              android:background="#820000"
 >
 
 
@@ -20,12 +20,7 @@
             tools:visibility="visible"
             android:indeterminateTint="#1a09d6"
             android:layout_marginTop="-7dp"/>
-    <Switch
-            android:text="Debug Switch"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" android:id="@+id/switch12"
-            android:checked="false"
-    />
+
     <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="match_parent"

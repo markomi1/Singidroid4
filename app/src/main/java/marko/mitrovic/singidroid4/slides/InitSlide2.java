@@ -79,7 +79,11 @@ public class InitSlide2  extends Fragment implements ISlidePolicy {
 
     @Override
     public boolean isPolicyRespected() {
-        return true;
+        if(switchState){
+            return true;
+        }else{
+            return false;
+        }
     }
 
     @Override
