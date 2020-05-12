@@ -79,7 +79,7 @@ public class AppInit extends AppIntro2 {
     public void onDonePressed(Fragment currentFragment) {
         super.onDonePressed(currentFragment);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("Do you want to skip App Init ? Clicking yes will resume the app with default settings")
+        builder.setMessage("Are you sure that you want to commit those selected options? You can later change them under options")
                 .setCancelable(false)
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
