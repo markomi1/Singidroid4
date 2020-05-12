@@ -1,9 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:background="@color/colorPrimary"
+              android:background="@android:color/white"
 >
+
+
+    <ProgressBar
+            android:id="@+id/userinit2progressbar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            android:max="100"
+            android:backgroundTint="@android:color/white"
+            android:visibility="invisible"
+            tools:visibility="visible"
+            android:indeterminateTint="#1a09d6"
+            android:layout_marginTop="-7dp"/>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/button_layoutUserInit2"
+            android:orientation="vertical"
+    >
+        <ScrollView
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+        >
+
+            <RadioGroup android:id="@+id/toggleGroupUserInit2"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="24dp"
+                        android:orientation="vertical"
+            >
+
+
+            </RadioGroup>
+
+        </ScrollView>
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
 
 </LinearLayout>

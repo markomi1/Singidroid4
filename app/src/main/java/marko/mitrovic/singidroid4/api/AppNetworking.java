@@ -82,10 +82,10 @@ public class AppNetworking{
 
 
 
-    public JSONArray SyncApiCall(Context context, String moduleName, String methodName, String additionalParam){
+    public JSONArray SyncApiCall(Context context, String module){
         JSONArray users = null;
-        //String url = "https://api.singidunum.rs/key:SD03-A1K8-1033-0001-3355/module:"+moduleName+"/method:"+methodName+additionalParam;
-        String url = "http://192.168.4.110:8443/getFaculties";
+
+        String url = "http://192.168.4.110:8080/appInit/"+module;
         AndroidNetworking.initialize(context.getApplicationContext());
         ANRequest request = AndroidNetworking.get(url)
                 .setPriority(Priority.HIGH)

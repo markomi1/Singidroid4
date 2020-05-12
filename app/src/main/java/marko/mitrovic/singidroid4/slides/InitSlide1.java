@@ -11,14 +11,15 @@ import android.view.ViewGroup;
 import android.widget.*;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.AppCompatButton;
-import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import com.github.paolorotolo.appintro.ISlidePolicy;
 import marko.mitrovic.singidroid4.R;
 import marko.mitrovic.singidroid4.api.AppNetworking;
+import marko.mitrovic.singidroid4.repo.SharedViewModel;
 import org.json.JSONArray;
 import org.json.JSONException;
 
@@ -27,8 +28,9 @@ public class InitSlide1 extends Fragment implements ISlidePolicy {
     private int layoutResId;
     private Switch switchBtn;
     private String toggleID;
+    private SharedViewModel viewModel;
 
-    public boolean switchState;
+    private boolean switchState;
     private ProgressBar progressBar;
     private View view;
     public static InitSlide1 newInstance(int layoutResId2) {
@@ -56,8 +58,7 @@ public class InitSlide1 extends Fragment implements ISlidePolicy {
         view = inflater.inflate(this.layoutResId, container, false);
         switchBtn = view.findViewById(R.id.switch12);
         progressBar = (ProgressBar) view.findViewById(R.id.progressbar);
-        myTask task = new myTask(getContext(),"system","getFaculties");
-        task.execute();
+
 
         return view;
 
@@ -66,6 +67,24 @@ public class InitSlide1 extends Fragment implements ISlidePolicy {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        viewModel = new ViewModelProvider(getActivity()).get(SharedViewModel.class);
+        viewModel.getFaculties().observe(getViewLifecycleOwner(), new Observer<JSONArray>() {
+            @Override
+            public void onChanged(JSONArray jsonArray) {
+
+            }
+        });
+
+        if(viewModel.getFaculties().getValue() == null){
+            getFaculties task = new getFaculties(getContext(),"getFaculties");
+            task.execute();
+        }else{
+            try {
+                AddButton(viewModel.getFaculties().getValue(),false);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @Override
@@ -103,15 +122,22 @@ public class InitSlide1 extends Fragment implements ISlidePolicy {
     }
 
 
-    public void AddButton(JSONArray toSet) throws JSONException {
+    public void AddButton(JSONArray toSet, boolean b) throws JSONException {
 
+        if(toSet == null){
+            return;
+        }
         RadioGroup lin = (RadioGroup) view.findViewById(R.id.toggleGroup);
+        int buttonCount = lin.getChildCount();
+        if(buttonCount != 0 && b){
+            lin.removeAllViews();
+        }
         for(int i = 0; i  < toSet.length();i++){
             ToggleButton newBtn = new ToggleButton(getContext());
-            newBtn.setText(toSet.getJSONObject(i).getString("faculty_title"));
-            newBtn.setTextOn(toSet.getJSONObject(i).getString("faculty_title"));
-            newBtn.setTextOff(toSet.getJSONObject(i).getString("faculty_title"));
-
+            newBtn.setText(toSet.getJSONObject(i).getString("title"));
+            newBtn.setTextOn(toSet.getJSONObject(i).getString("title"));
+            newBtn.setTextOff(toSet.getJSONObject(i).getString("title"));
+            newBtn.setTag(toSet.getJSONObject(i).getString("id"));
             newBtn.setId(ViewCompat.generateViewId());
             newBtn.setBackground(ContextCompat.getDrawable(getContext(),R.drawable.init_button));
             newBtn.setHeight(60);
@@ -130,10 +156,13 @@ public class InitSlide1 extends Fragment implements ISlidePolicy {
                         toggleButton.setChecked(v.getId() == toggleButton.getId());
                         if(v.getId() == toggleButton.getId()) {
                             toggleID = toggleButton.getText().toString();
+                            viewModel.setText(toggleButton.getTag().toString());
+                            Log.d("initSlide1",toggleButton.getTag().toString());
                         }
 
                         switchState = true;
                     }
+
                 }
             });;
             lin.addView(newBtn);
@@ -148,17 +177,13 @@ public class InitSlide1 extends Fragment implements ISlidePolicy {
 
 
 
-    private class myTask extends AsyncTask<String,Void, JSONArray> {
+    private class getFaculties extends AsyncTask<String,Void, JSONArray> {
         private Context mContext;
-        private String mModule,mMethod;
+        private String faks;
 
-
-
-        public myTask(Context context,String module,String method) {
-            mContext = context;
-            mModule = module;
-            mMethod = method;
-
+        public getFaculties(Context mContext, String faks) {
+            this.mContext = mContext;
+            this.faks = faks;
         }
 
         @Override
@@ -171,19 +196,19 @@ public class InitSlide1 extends Fragment implements ISlidePolicy {
         @Override
         protected JSONArray doInBackground(String... strings) {
             AppNetworking net = new AppNetworking();
-            JSONArray response = net.SyncApiCall(mContext,mModule,mMethod,"");
-            //net.ApiCallTest(mContext);
+            JSONArray response = net.SyncApiCall(mContext,faks);
+            viewModel.setFaculties(response);
             return response;
         }
 
         @Override
         protected void onPostExecute(JSONArray jsonArray) {
             super.onPostExecute(jsonArray);
-            Log.d("ASSTASK", String.valueOf(jsonArray));
+            Log.d("getFacultiesTask", String.valueOf(jsonArray));
             progressBar.setVisibility(View.INVISIBLE);
 
             try {
-                AddButton(jsonArray);
+                AddButton(jsonArray, false);
             } catch (JSONException e) {
                 e.printStackTrace();
             }

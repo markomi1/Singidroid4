@@ -1,19 +1,40 @@
 package marko.mitrovic.singidroid4.slides;
 
+import android.content.Context;
+import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
+import android.widget.RadioGroup;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
+import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import com.github.paolorotolo.appintro.ISlidePolicy;
+import marko.mitrovic.singidroid4.R;
+import marko.mitrovic.singidroid4.api.AppNetworking;
+import marko.mitrovic.singidroid4.repo.SharedViewModel;
+import marko.mitrovic.singidroid4.repo.memory;
+import org.json.JSONArray;
+import org.json.JSONException;
 
 public class InitSlide2  extends Fragment implements ISlidePolicy {
     private static final String ARG_LAYOUT_RES_ID = "layoutResId";
     private int layoutResId;
+    private SharedViewModel viewModel;
+    private boolean switchState;
+    private String toggleID;
+    private View view;
+    private ProgressBar progressBar;
 
     public static InitSlide2 newInstance(int layoutResId2) {
         InitSlide2 initSlide2 = new InitSlide2();
@@ -28,13 +49,36 @@ public class InitSlide2  extends Fragment implements ISlidePolicy {
         if (getArguments() != null && getArguments().containsKey(ARG_LAYOUT_RES_ID)) {
             this.layoutResId = getArguments().getInt(ARG_LAYOUT_RES_ID);
         }
+
     }
 
 
     @Nullable
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(this.layoutResId, container, false);
+        view = inflater.inflate(this.layoutResId, container, false);
+        progressBar = (ProgressBar) view.findViewById(R.id.userinit2progressbar);
+
+        return view;
     }
+
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        viewModel = new ViewModelProvider(getActivity()).get(SharedViewModel.class);
+
+
+
+        viewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
+            @Override
+            public void onChanged(String s) {
+                Log.d("initSlide2",s);
+                getYears task = new getYears(getContext(),s);
+                task.execute();
+            }
+        });
+    }
+
 
     @Override
     public boolean isPolicyRespected() {
@@ -45,4 +89,100 @@ public class InitSlide2  extends Fragment implements ISlidePolicy {
     public void onUserIllegallyRequestedNextPage() {
         Log.d("SampleSlide","Illegal Request made 2");
     }
+
+    public void AddButton(JSONArray toSet) throws JSONException {
+        Log.d("AddButtonInitSlide2",toSet.toString());
+        if(toSet == null){
+            return;
+        }
+        RadioGroup lin = (RadioGroup) view.findViewById(R.id.toggleGroupUserInit2);
+        int buttonCount = lin.getChildCount();
+        if(buttonCount != 0){
+            lin.removeAllViews();
+        }
+        for(int i = 0; i  < toSet.length();i++){
+            ToggleButton newBtn = new ToggleButton(getContext());
+            newBtn.setText(toSet.getJSONObject(i).getString("title"));
+            newBtn.setTextOn(toSet.getJSONObject(i).getString("title"));
+            newBtn.setTextOff(toSet.getJSONObject(i).getString("title"));
+            newBtn.setTag(toSet.getJSONObject(i).getString("id"));
+            newBtn.setId(ViewCompat.generateViewId());
+            newBtn.setBackground(ContextCompat.getDrawable(getContext(),R.drawable.init_button));
+            newBtn.setHeight(60);
+            newBtn.setTextColor(Color.parseColor("#ffffff"));
+            newBtn.setTextSize(18);
+
+            if(newBtn.getText().toString().equals(toggleID)){
+                newBtn.setChecked(true);
+            }
+
+            newBtn.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    RadioGroup radioGroup = (RadioGroup)v.getParent();
+                    for (int j = 0; j < radioGroup.getChildCount(); j++) {
+                        ToggleButton toggleButton = (ToggleButton) radioGroup.getChildAt(j);
+                        toggleButton.setChecked(v.getId() == toggleButton.getId());
+                        if(v.getId() == toggleButton.getId()) {
+                            toggleID = toggleButton.getText().toString();
+                            //viewModel.setText(toggleButton.getTag().toString());
+                            Log.d("initSlide2",toggleButton.getTag().toString());
+                        }
+
+                        switchState = true;
+                    }
+
+                }
+            });;
+            lin.addView(newBtn);
+            RadioGroup.LayoutParams layoutParams = (RadioGroup.LayoutParams) view.findViewById(newBtn.getId()).getLayoutParams();
+            layoutParams.setMargins(70, 50, 70, 0);
+
+        }
+
+
+
+    }
+
+
+    private class getYears extends AsyncTask<String,Void, JSONArray> {
+        private Context mContext;
+        private String module;
+
+        public getYears(Context mContext, String module) {
+            this.mContext = mContext;
+            this.module = module;
+
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progressBar.setVisibility(view.VISIBLE);
+
+        }
+
+        @Override
+        protected JSONArray doInBackground(String... strings) {
+            AppNetworking net = new AppNetworking();
+            JSONArray response = net.SyncApiCall(mContext,module);
+            viewModel.setjArray(response);
+            return response;
+        }
+
+        @Override
+        protected void onPostExecute(JSONArray jsonArray) {
+            super.onPostExecute(jsonArray);
+            Log.d("getFacultiesTask", String.valueOf(jsonArray));
+            progressBar.setVisibility(View.INVISIBLE);
+
+            try {
+                AddButton(jsonArray);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+        }
+    }
+
+
 }
