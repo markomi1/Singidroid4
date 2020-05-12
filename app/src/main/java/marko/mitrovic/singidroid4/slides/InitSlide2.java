@@ -10,20 +10,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.RadioGroup;
-import android.widget.Toast;
 import android.widget.ToggleButton;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
-import androidx.core.view.GravityCompat;
 import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import com.github.paolorotolo.appintro.ISlidePolicy;
 import marko.mitrovic.singidroid4.R;
 import marko.mitrovic.singidroid4.api.AppNetworking;
 import marko.mitrovic.singidroid4.repo.SharedViewModel;
-import marko.mitrovic.singidroid4.repo.memory;
 import org.json.JSONArray;
 import org.json.JSONException;
 
@@ -67,16 +63,17 @@ public class InitSlide2  extends Fragment implements ISlidePolicy {
         super.onActivityCreated(savedInstanceState);
         viewModel = new ViewModelProvider(getActivity()).get(SharedViewModel.class);
 
-
-
-        viewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(String s) {
-                Log.d("initSlide2",s);
-                getYears task = new getYears(getContext(),s);
-                task.execute();
+        if(viewModel.getFacultiesArray().getValue() == null){
+            getYears task = new getYears(getContext(),"getYears");
+            task.execute();
+        }else{
+            try {
+                AddButton(viewModel.getYearsArray().getValue(),false);
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
-        });
+        }
+
     }
 
 
@@ -90,14 +87,14 @@ public class InitSlide2  extends Fragment implements ISlidePolicy {
         Log.d("SampleSlide","Illegal Request made 2");
     }
 
-    public void AddButton(JSONArray toSet) throws JSONException {
+    public void AddButton(JSONArray toSet, boolean b) throws JSONException {
         Log.d("AddButtonInitSlide2",toSet.toString());
         if(toSet == null){
             return;
         }
         RadioGroup lin = (RadioGroup) view.findViewById(R.id.toggleGroupUserInit2);
         int buttonCount = lin.getChildCount();
-        if(buttonCount != 0){
+        if(buttonCount != 0 && b){
             lin.removeAllViews();
         }
         for(int i = 0; i  < toSet.length();i++){
@@ -124,7 +121,7 @@ public class InitSlide2  extends Fragment implements ISlidePolicy {
                         toggleButton.setChecked(v.getId() == toggleButton.getId());
                         if(v.getId() == toggleButton.getId()) {
                             toggleID = toggleButton.getText().toString();
-                            //viewModel.setText(toggleButton.getTag().toString());
+                            viewModel.setSelectedYear(toggleButton.getTag().toString());
                             Log.d("initSlide2",toggleButton.getTag().toString());
                         }
 
@@ -165,7 +162,7 @@ public class InitSlide2  extends Fragment implements ISlidePolicy {
         protected JSONArray doInBackground(String... strings) {
             AppNetworking net = new AppNetworking();
             JSONArray response = net.SyncApiCall(mContext,module);
-            viewModel.setjArray(response);
+            viewModel.setYearsArray(response);
             return response;
         }
 
@@ -176,7 +173,7 @@ public class InitSlide2  extends Fragment implements ISlidePolicy {
             progressBar.setVisibility(View.INVISIBLE);
 
             try {
-                AddButton(jsonArray);
+                AddButton(jsonArray, false);
             } catch (JSONException e) {
                 e.printStackTrace();
             }

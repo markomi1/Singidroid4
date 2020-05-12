@@ -5,29 +5,41 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import org.json.JSONArray;
 
+import java.util.List;
+
 public class SharedViewModel extends ViewModel {
-    private MutableLiveData<String> text = new MutableLiveData<>(); //test shit, will maybe, probably not be removed
-    private MutableLiveData<JSONArray> jArray = new MutableLiveData<>(); //test shit, will maybe, probably not be removed
     private MutableLiveData<JSONArray> facultiesArray = new MutableLiveData<>(); //Used for storing faculties JSON
-    public void setText(String input) {
-        text.postValue(input);
-    }
+    private MutableLiveData<JSONArray> yearsArray = new MutableLiveData<>(); //Used for storing years Array
+    private MutableLiveData<String> selectedFaculty = new MutableLiveData<>(); //Stores selected faculty ID
+    private MutableLiveData<String> selectedYear = new MutableLiveData<>(); //Stores selected year ID
 
-    public LiveData<String> getText() {
-        return text;
-    }
-
-    public void setjArray(JSONArray input){
-        jArray.postValue(input);
-    }
-    public LiveData<JSONArray> getjArray() {
-        return jArray;
-    }
-
-    public void setFaculties(JSONArray input){
+    public void setFacultiesArray(JSONArray input){
         facultiesArray.postValue(input);
     }
-    public LiveData<JSONArray> getFaculties(){
+    public LiveData<JSONArray> getFacultiesArray(){
         return facultiesArray;
+    }
+
+    public void setYearsArray(JSONArray input) {
+        yearsArray.postValue(input);
+    }
+
+    public LiveData<JSONArray> getYearsArray() {
+        return yearsArray;
+    }
+
+    public void setSelectedFaculty(String input){
+        selectedFaculty.postValue(input);
+    }
+    public LiveData<String> getSelectedFaculty(){
+        return selectedFaculty;
+    }
+
+    public void setSelectedYear(String input){
+        selectedYear.postValue(input);
+    }
+
+    public LiveData<String> getSelectedYear(){
+        return selectedYear;
     }
 }

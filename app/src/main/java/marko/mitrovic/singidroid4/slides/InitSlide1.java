@@ -68,19 +68,19 @@ public class InitSlide1 extends Fragment implements ISlidePolicy {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         viewModel = new ViewModelProvider(getActivity()).get(SharedViewModel.class);
-        viewModel.getFaculties().observe(getViewLifecycleOwner(), new Observer<JSONArray>() {
+        viewModel.getFacultiesArray().observe(getViewLifecycleOwner(), new Observer<JSONArray>() {
             @Override
             public void onChanged(JSONArray jsonArray) {
 
             }
         });
 
-        if(viewModel.getFaculties().getValue() == null){
+        if(viewModel.getFacultiesArray().getValue() == null){
             getFaculties task = new getFaculties(getContext(),"getFaculties");
             task.execute();
         }else{
             try {
-                AddButton(viewModel.getFaculties().getValue(),false);
+                AddButton(viewModel.getFacultiesArray().getValue(),false);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -156,7 +156,7 @@ public class InitSlide1 extends Fragment implements ISlidePolicy {
                         toggleButton.setChecked(v.getId() == toggleButton.getId());
                         if(v.getId() == toggleButton.getId()) {
                             toggleID = toggleButton.getText().toString();
-                            viewModel.setText(toggleButton.getTag().toString());
+                            viewModel.setSelectedFaculty(toggleButton.getTag().toString()); //Replace with var that'll be used to save to shared pref
                             Log.d("initSlide1",toggleButton.getTag().toString());
                         }
 
@@ -197,7 +197,7 @@ public class InitSlide1 extends Fragment implements ISlidePolicy {
         protected JSONArray doInBackground(String... strings) {
             AppNetworking net = new AppNetworking();
             JSONArray response = net.SyncApiCall(mContext,faks);
-            viewModel.setFaculties(response);
+            viewModel.setFacultiesArray(response);
             return response;
         }
 
