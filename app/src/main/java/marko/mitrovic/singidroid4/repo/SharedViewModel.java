@@ -5,14 +5,13 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import org.json.JSONArray;
 
-import java.util.List;
-
 public class SharedViewModel extends ViewModel {
     private MutableLiveData<JSONArray> facultiesArray = new MutableLiveData<>(); //Used for storing faculties JSON
     private MutableLiveData<JSONArray> yearsArray = new MutableLiveData<>(); //Used for storing years Array
     private MutableLiveData<String> selectedFaculty = new MutableLiveData<>(); //Stores selected faculty ID
     private MutableLiveData<String> selectedYear = new MutableLiveData<>(); //Stores selected year ID
     private MutableLiveData<String> selectedCourse = new MutableLiveData<>(); //Stores selected Course ID
+    private MutableLiveData<JSONArray> newsFaculties = new MutableLiveData<>(); //Stores list of available news sources
 
     public void setFacultiesArray(JSONArray input) {
         facultiesArray.postValue(input);
@@ -54,5 +53,13 @@ public class SharedViewModel extends ViewModel {
     public LiveData<String> getSelectedCourse() {
 
         return selectedCourse;
+    }
+
+    public LiveData<JSONArray> getNewsFaculties() {
+        return newsFaculties;
+    }
+
+    public void setNewsFaculties(JSONArray input) {
+        newsFaculties.postValue(input);
     }
 }

@@ -7,7 +7,7 @@
         <item android:id="@+id/nav_vesti"
               android:icon="@drawable/ic_newspaper"
               android:title="@string/vesti"
-              app:actionLayout="@layout/menu_dot"
+              app:actionLayout="@layout/news_settings"
         />
         <item android:id="@+id/nav_stranice_predmeta"
               android:icon="@drawable/ic_stranica_predmeta"

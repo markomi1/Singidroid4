@@ -2,9 +2,11 @@ package marko.mitrovic.singidroid4;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
@@ -17,11 +19,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.lifecycle.ViewModelProvider;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
 import marko.mitrovic.singidroid4.api.AppNetworking;
 import marko.mitrovic.singidroid4.fragments.AboutFragment;
 import marko.mitrovic.singidroid4.fragments.NewsFragment;
+import marko.mitrovic.singidroid4.fragments.NewsFragmentSettingsDialog;
+import marko.mitrovic.singidroid4.repo.SharedViewModel;
+import org.json.JSONArray;
 
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -31,12 +37,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private TabLayout tabsLayout;
     private static final int TIME_INTERVAL = 2000; // # milliseconds, desired time passed between two back presses.
     private long mBackPressed;
+    private SharedViewModel viewModel; //Shared repo
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        //setTheme(R.style.);
 
         setContentView(R.layout.activity_main);
 
@@ -58,7 +64,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         toggle.syncState();
 
-        //navigationView.getMenu().getItem(0).setActionView(R.layout.menu_dot);
+        //navigationView.getMenu().getItem(0).setActionView(R.layout.news_settings);
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new NewsFragment()).commit();
@@ -66,13 +72,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
 
-        setStatusBarColor(0, 0, "#A8011D");
+        setStatusBarColor(0, 0, "#A8011D"); //Sets the toolbar color to desired color
+
+        viewModel = new ViewModelProvider(this).get(SharedViewModel.class); //get repo
 
 
-
-        //toolbar.setBackgroundColor(Color.argb(255,44,44,209));
-        AppNetworking net = new AppNetworking();
-        //net.test(this);
     }
 
     @Nullable
@@ -151,6 +155,41 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
     public void showNewsSourceSettings(View view) {
-        Toast.makeText(view.getContext(), "TEST", Toast.LENGTH_SHORT).show();
+        NewsFragmentSettingsDialog newsSettings = new NewsFragmentSettingsDialog();
+        newsSettings.show(getSupportFragmentManager(), "test");
+    }
+
+    private class getFaculties extends AsyncTask<String, Void, JSONArray> {
+        private Context mContext;
+        private String faks;
+
+        public getFaculties(Context mContext, String faks) {
+            this.mContext = mContext;
+            this.faks = faks;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            //progressBar.setVisibility(view.VISIBLE);
+
+        }
+
+        @Override
+        protected JSONArray doInBackground(String... strings) {
+            AppNetworking net = new AppNetworking();
+            JSONArray response = net.SyncApiCall(mContext, faks);
+            viewModel.setNewsFaculties(response);
+            return response;
+        }
+
+        @Override
+        protected void onPostExecute(JSONArray jsonArray) {
+            super.onPostExecute(jsonArray);
+            Log.d("getFacultiesTask", String.valueOf(jsonArray));
+            //progressBar.setVisibility(View.INVISIBLE);
+
+
+        }
     }
 }

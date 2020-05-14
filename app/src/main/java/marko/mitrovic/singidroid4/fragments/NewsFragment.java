@@ -26,7 +26,7 @@ public class NewsFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         ((MainActivity) getActivity()).setStatusBarColor(0, 0, "#A8011D");
 
         //Sets up tabs for news, aka, Singidunum,Fir, etc.
-        
+
 
         return view;
     }
