@@ -11,11 +11,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-import androidx.viewpager.widget.ViewPager;
-import com.google.android.material.tabs.TabLayout;
 import marko.mitrovic.singidroid4.MainActivity;
 import marko.mitrovic.singidroid4.R;
-import marko.mitrovic.singidroid4.tabsPageAdapter;
 
 public class NewsFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
     private View view;
@@ -29,12 +26,7 @@ public class NewsFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         ((MainActivity) getActivity()).setStatusBarColor(0, 0, "#A8011D");
 
         //Sets up tabs for news, aka, Singidunum,Fir, etc.
-        tabsPageAdapter sectionsPagerAdapter = new tabsPageAdapter(getContext(), getActivity().getSupportFragmentManager());
-        ViewPager viewPager = view.findViewById(R.id.view_pager);
-        viewPager.setAdapter(sectionsPagerAdapter);
-        TabLayout tabs = view.findViewById(R.id.tabsLayout);
-        tabs.setupWithViewPager(viewPager);
-
+        
 
         return view;
     }

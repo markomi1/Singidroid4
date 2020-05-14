@@ -53,19 +53,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView.setNavigationItemSelectedListener(this);
 
 
-
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this,drawer,toolbar,R.string.navigation_drawer_open,R.string.navigation_drawer_close);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
 
         toggle.syncState();
 
-        if(savedInstanceState == null){
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new NewsFragment()).commit();
+        //navigationView.getMenu().getItem(0).setActionView(R.layout.menu_dot);
+
+        if (savedInstanceState == null) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new NewsFragment()).commit();
             navigationView.setCheckedItem(R.id.nav_vesti);
         }
 
 
         setStatusBarColor(0, 0, "#A8011D");
+
 
 
         //toolbar.setBackgroundColor(Color.argb(255,44,44,209));
@@ -148,4 +150,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
 
+    public void showNewsSourceSettings(View view) {
+        Toast.makeText(view.getContext(), "TEST", Toast.LENGTH_SHORT).show();
+    }
 }
