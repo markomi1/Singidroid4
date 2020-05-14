@@ -27,16 +27,21 @@
             android:id="@+id/button_layout"
             android:orientation="vertical"
     >
-        <RadioGroup android:id="@+id/toggleGroup"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="24dp"
-                    android:orientation="vertical"
+        <ScrollView
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
         >
 
+            <RadioGroup android:id="@+id/toggleGroup"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="24dp"
+                        android:orientation="vertical"
+            >
 
 
-        </RadioGroup>
+            </RadioGroup>
+        </ScrollView>
 
 
     </androidx.appcompat.widget.LinearLayoutCompat>

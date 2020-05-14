@@ -6,31 +6,31 @@
     <group android:checkableBehavior="single">
         <item android:id="@+id/nav_vesti"
               android:icon="@drawable/ic_newspaper"
-              android:title="Vesti"/>
+              android:title="@string/vesti"/>
         <item android:id="@+id/nav_stranice_predmeta"
               android:icon="@drawable/ic_stranica_predmeta"
-              android:title="Stranice Predmeta"/>
+              android:title="@string/stranice_predmeta"/>
         <item android:id="@+id/nav_rasporedi_predavanja"
               android:icon="@drawable/ic_class_schedule"
-              android:title="Raspored Predavanja"/>
+              android:title="@string/raspored_predavanja"/>
         <item android:id="@+id/nav_rasporedi_konsultacija"
               android:icon="@drawable/ic_consultation"
-              android:title="Rasporedi Konsultacija"/>
+              android:title="@string/rasporedi_konsultacija"/>
         <item android:id="@+id/nav_student_stanje"
               android:icon="@drawable/ic_wallet"
-              android:title="Stanje Studentsko Racuna"/>
+              android:title="@string/stanje_studentsko_racuna"/>
         <item android:id="@+id/nav_tekuci_racun"
               android:icon="@drawable/ic_money"
-              android:title="Tekuci Racuni"/>
+              android:title="@string/tekuci_racuni"/>
         <item android:id="@+id/nav_lokacija"
               android:icon="@drawable/ic_location"
-              android:title="Lokacija Univerziteta Singidunum"/>
+              android:title="@string/lokacija_univerziteta_singidunum"/>
         <item android:id="@+id/nav_kontakt"
               android:icon="@drawable/ic_contact_info"
-              android:title="Kontakt Podaci"/>
+              android:title="@string/kontakt_podaci"/>
         <item android:id="@+id/nav_o_aplikaciji"
               android:icon="@drawable/ic_info"
-              android:title="O Aplikaciji"/>
+              android:title="@string/o_aplikaciji"/>
     </group>
 
 

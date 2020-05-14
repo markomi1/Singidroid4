@@ -35,6 +35,8 @@
                     android:layout_centerHorizontal="true"
 
                     android:src="@drawable/ic_univerzitet_singidunum_srb"/>
+
+
         </androidx.appcompat.widget.Toolbar>
 
 
@@ -42,7 +44,8 @@
                 android:id="@+id/fragment_container"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-        />
+        >
+        </com.google.android.material.circularreveal.CircularRevealFrameLayout>
     </androidx.appcompat.widget.LinearLayoutCompat>
 
     <com.google.android.material.navigation.NavigationView

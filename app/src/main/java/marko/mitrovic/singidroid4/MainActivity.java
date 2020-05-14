@@ -1,19 +1,24 @@
 package marko.mitrovic.singidroid4;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.AttributeSet;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.tabs.TabLayout;
 import marko.mitrovic.singidroid4.api.AppNetworking;
 import marko.mitrovic.singidroid4.fragments.AboutFragment;
 import marko.mitrovic.singidroid4.fragments.NewsFragment;
@@ -23,6 +28,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private DrawerLayout drawer;
     private Toolbar toolbar;
+    private TabLayout tabsLayout;
     private static final int TIME_INTERVAL = 2000; // # milliseconds, desired time passed between two back presses.
     private long mBackPressed;
 
@@ -38,11 +44,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
 
-
-
         setSupportActionBar(toolbar);
 
         drawer = findViewById(R.id.draw_layout);
+
 
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
@@ -60,7 +65,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
 
-        setStatusBarColor(0,0,"#A8011D");
+        setStatusBarColor(0, 0, "#A8011D");
 
 
         //toolbar.setBackgroundColor(Color.argb(255,44,44,209));
@@ -68,11 +73,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //net.test(this);
     }
 
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull String name, @NonNull Context context, @NonNull AttributeSet attrs) {
+
+        return super.onCreateView(name, context, attrs);
+    }
+
     @Override
     public void onBackPressed() {
-        if(drawer.isDrawerOpen(GravityCompat.START)){
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
-        }else {
+        } else {
             drawer.openDrawer(GravityCompat.START);
 
             if (mBackPressed + TIME_INTERVAL > System.currentTimeMillis()) {

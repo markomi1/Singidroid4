@@ -20,4 +20,13 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="vesti">Vesti</string>
+    <string name="stranice_predmeta">Stranice Predmeta</string>
+    <string name="raspored_predavanja">Raspored Predavanja</string>
+    <string name="rasporedi_konsultacija">Rasporedi Konsultacija</string>
+    <string name="stanje_studentsko_racuna">Stanje Studentsko Racuna</string>
+    <string name="tekuci_racuni">Tekuci Racuni</string>
+    <string name="lokacija_univerziteta_singidunum">Lokacija Univerziteta Singidunum</string>
+    <string name="kontakt_podaci">Kontakt Podaci</string>
+    <string name="o_aplikaciji">O Aplikaciji</string>
 </resources>
