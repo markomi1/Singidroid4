@@ -156,14 +156,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public void showNewsSourceSettings(View view) {
         NewsFragmentSettingsDialog newsSettings = new NewsFragmentSettingsDialog();
+        getNewsRepo task = new getNewsRepo(this, );
         newsSettings.show(getSupportFragmentManager(), "test");
     }
 
-    private class getFaculties extends AsyncTask<String, Void, JSONArray> {
+    private class getNewsRepo extends AsyncTask<String, Void, JSONArray> {
         private Context mContext;
         private String faks;
 
-        public getFaculties(Context mContext, String faks) {
+        public getNewsRepo(Context mContext, String faks) {
             this.mContext = mContext;
             this.faks = faks;
         }

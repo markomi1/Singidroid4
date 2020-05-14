@@ -64,7 +64,7 @@ public class InitSlide2  extends Fragment implements ISlidePolicy {
         viewModel = new ViewModelProvider(getActivity()).get(SharedViewModel.class);
 
         if(viewModel.getFacultiesArray().getValue() == null){
-            getYears task = new getYears(getContext(),"getYears");
+            getYears task = new getYears(getContext(), "appInit/getYears");
             task.execute();
         }else{
             try {

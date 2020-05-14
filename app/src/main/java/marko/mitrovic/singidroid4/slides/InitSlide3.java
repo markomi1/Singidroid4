@@ -1,11 +1,13 @@
 package marko.mitrovic.singidroid4.slides;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.RadioGroup;
 import android.widget.ToggleButton;
@@ -13,10 +15,6 @@ import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import com.github.paolorotolo.appintro.ISlidePolicy;
@@ -73,7 +71,7 @@ public class InitSlide3 extends Fragment implements ISlidePolicy {
             @Override
             public void onChanged(String input) {
                 String FacultiesAndYears = "?faks=" + viewModel.getSelectedFaculty().getValue() + "&year=" + viewModel.getSelectedYear().getValue();
-                getCourses task = new getCourses(getContext(), "getCourse" + FacultiesAndYears);
+                getCourses task = new getCourses(getContext(), "appInit/getCourse" + FacultiesAndYears);
                 task.execute();
             }
         });

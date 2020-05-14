@@ -2,25 +2,14 @@ package marko.mitrovic.singidroid4.api;
 
 import android.content.Context;
 import android.util.Log;
-import android.widget.Toast;
 import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.common.ANRequest;
 import com.androidnetworking.common.ANResponse;
 import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.JSONArrayRequestListener;
-import com.androidnetworking.interfaces.JSONObjectRequestListener;
-import marko.mitrovic.singidroid4.R;
-import marko.mitrovic.singidroid4.SplashScreen;
-import okhttp3.OkHttpClient;
 import org.json.JSONArray;
-import org.json.JSONObject;
 
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLSocketFactory;
-import javax.net.ssl.TrustManagerFactory;
-import java.io.InputStream;
-import java.security.KeyStore;
 import java.util.concurrent.TimeUnit;
 
 public class AppNetworking{
@@ -85,7 +74,7 @@ public class AppNetworking{
     public JSONArray SyncApiCall(Context context, String module){
         JSONArray users = null;
 
-        String url = "http://192.168.4.110:8080/appInit/"+module;
+        String url = "http://192.168.4.110:8080/" + module;
         AndroidNetworking.initialize(context.getApplicationContext());
         ANRequest request = AndroidNetworking.get(url)
                 .setPriority(Priority.HIGH)
