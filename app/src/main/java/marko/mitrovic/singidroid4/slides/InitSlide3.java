@@ -29,7 +29,6 @@ public class InitSlide3 extends Fragment implements ISlidePolicy {
     private static final String ARG_LAYOUT_RES_ID = "layoutResId";
     private int layoutResId;
     private SharedViewModel viewModel;
-    private boolean switchState;
     private String toggleID;
     private View view;
     private ProgressBar progressBar;
@@ -127,7 +126,7 @@ public class InitSlide3 extends Fragment implements ISlidePolicy {
                             Log.d("initSlide3", toggleButton.getTag().toString());
                         }
 
-                        switchState = true;
+
                     }
 
                 }
