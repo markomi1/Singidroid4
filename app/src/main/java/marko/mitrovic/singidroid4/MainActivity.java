@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private static final int TIME_INTERVAL = 2000; // # milliseconds, desired time passed between two back presses.
     private long mBackPressed;
     private SharedViewModel viewModel; //Shared repo
-
+    private NewsFragmentSettingsDialog newsSettings;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
+        newsSettings = new NewsFragmentSettingsDialog(); //Setting newsSetting var
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
@@ -155,9 +155,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
     public void showNewsSourceSettings(View view) {
-        NewsFragmentSettingsDialog newsSettings = new NewsFragmentSettingsDialog();
-        getNewsRepo task = new getNewsRepo(this, );
-        newsSettings.show(getSupportFragmentManager(), "test");
+
+        getNewsRepo task = new getNewsRepo(this, "news/getSources");
+        task.execute();
+
     }
 
     private class getNewsRepo extends AsyncTask<String, Void, JSONArray> {
@@ -187,10 +188,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         @Override
         protected void onPostExecute(JSONArray jsonArray) {
             super.onPostExecute(jsonArray);
-            Log.d("getFacultiesTask", String.valueOf(jsonArray));
-            //progressBar.setVisibility(View.INVISIBLE);
-
-
+            Log.d("getNewsTask  ", String.valueOf(jsonArray));
+            newsSettings.show(getSupportFragmentManager(), "test");
         }
     }
 }

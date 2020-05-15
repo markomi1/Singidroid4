@@ -4,9 +4,10 @@
                 android:layout_height="match_parent">
 
     <RadioGroup
+            android:id="@+id/news_sources_radio_group"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" android:layout_alignParentEnd="true"
-            android:layout_alignParentStart="true" android:layout_marginStart="20dp"
+            android:layout_alignParentStart="true" android:layout_marginStart="10dp"
             android:layout_marginTop="20dp">
 
     </RadioGroup>

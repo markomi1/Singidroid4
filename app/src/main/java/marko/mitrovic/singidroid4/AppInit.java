@@ -31,17 +31,18 @@ public class AppInit extends AppIntro2 {
         prefs = getSharedPreferences("SingidroidInitPrefs", MODE_PRIVATE); //Init sharedprefs
 
     }
+
     @Override
-    public void onSaveInstanceState(Bundle outState)
+    public void onSaveInstanceState(Bundle outState) //This was some sort of test, i think?
     {
         Log.d("CHATFRAG", "onSaveInstanceState: been called ");
         super.onSaveInstanceState(outState);
-        outState.putString("textView","test");
+        outState.putString("textView", "test");
         //Save the fragment's state here
     }
 
     @Override
-    public void onSkipPressed(Fragment currentFragment) { //Callsed when user wants to exit/skip the AppInit, creates dialog that asks the user to confirm the action.
+    public void onSkipPressed(Fragment currentFragment) { //Called when user wants to exit/skip the AppInit, creates dialog that asks the user to confirm the action.
         super.onSkipPressed(currentFragment); //TODO add localization for the strings
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -52,14 +53,15 @@ public class AppInit extends AppIntro2 {
                 .setCancelable(false)
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        prefs.edit().putBoolean("firstrun", false).apply(); //Set the flag to false so that init is complete,
+                        prefs.edit().putBoolean("firstrun", false).apply(); //Set the flag to false so that init is complete.
 
-                        //TODO add default values after firstrun=false if onSkipPressed is called
 
-                        Intent mainIntent = new Intent(AppInit.this,SplashScreen.class);
+                        saveToSharedPref("default", "0", "default"); //Sets the StudentProf to "default" values only if he skips the AppInit part.
+
+                        Intent mainIntent = new Intent(AppInit.this, SplashScreen.class);
                         AppInit.this.startActivity(mainIntent);
                         AppInit.this.finish();
-                        overridePendingTransition(R.anim.fadein,R.anim.fadeout);
+                        overridePendingTransition(R.anim.fadein, R.anim.fadeout);
                     }
                 })
                 .setNegativeButton("No", new DialogInterface.OnClickListener() {
