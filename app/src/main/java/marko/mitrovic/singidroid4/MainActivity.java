@@ -1,6 +1,7 @@
 package marko.mitrovic.singidroid4;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -19,6 +20,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
@@ -39,6 +41,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private long mBackPressed;
     private SharedViewModel viewModel; //Shared repo
     private NewsFragmentSettingsDialog newsSettings;
+    private SharedPreferences studentPerfs;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,7 +57,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         drawer = findViewById(R.id.draw_layout);
 
-
+        studentPerfs = getSharedPreferences("StudentPrefs", Context.MODE_PRIVATE);
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         newsSettings = new NewsFragmentSettingsDialog(); //Setting newsSetting var
@@ -72,11 +75,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
 
-        setStatusBarColor(0, 0, "#A8011D"); //Sets the toolbar color to desired color
+        //Sets the toolbar color to desired color
 
         viewModel = new ViewModelProvider(this).get(SharedViewModel.class); //get repo
 
+        viewModel.getToolBarColor().observe(this, new Observer<String>() {
+            @Override
+            public void onChanged(String s) { //This is only called when the getToolbarColor variable is updated from NewsFragmentSettingsDialog class
+                setStatusBarColor(0, 0, s); //sets the color of the toolbar to the given one from NewsFragmentSettingsDialog class
+            }
+        });
 
+        setStatusBarColor(0, 0, studentPerfs.getString("Color", "#A8011D"));
+        //Sets it to the default color if nothing is found, if it does find something it sets it to that color
     }
 
     @Nullable
@@ -156,8 +167,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public void showNewsSourceSettings(View view) {
 
-        getNewsRepo task = new getNewsRepo(this, "news/getSources");
-        task.execute();
+
+        if (viewModel.getNewsFaculties().getValue() == null) {
+            getNewsRepo task = new getNewsRepo(this, "news/getSources");
+            task.execute();
+        } else {
+            newsSettings.show(getSupportFragmentManager(), "test");
+        }
+
 
     }
 

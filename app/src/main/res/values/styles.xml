@@ -19,9 +19,9 @@
     </style>
 
     <style name="AppTheme.Launcher" parent="AppTheme.NoActionBar">
-    <item name="android:windowBackground">@drawable/uni_background</item>
-    <!-- Optional, on Android 5+ you can modify the colorPrimaryDark color to match the windowBackground color for further branding-->
-    <!-- <item name="colorPrimaryDark">@android:color/white</item> -->
+        <item name="android:windowBackground">@drawable/uni_background</item>
+        <!-- Optional, on Android 5+ you can modify the colorPrimaryDark color to match the windowBackground color for further branding-->
+        <!-- <item name="colorPrimaryDark">@android:color/white</item> -->
     </style>
 
     <style name="MyProgressBar" parent="@style/Widget.AppCompat.ProgressBar">
@@ -29,4 +29,11 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
 
     </style>
+
+
+    <style name="DialogAnimation">
+        <item name="android:windowEnterAnimation">@anim/dialogfadein</item>
+        <item name="android:windowExitAnimation">@anim/dialogfadeout</item>
+    </style>
+
 </resources>
