@@ -2,6 +2,7 @@ package marko.mitrovic.singidroid4.fragments;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -22,6 +23,7 @@ import marko.mitrovic.singidroid4.api.ApiCalls;
 import marko.mitrovic.singidroid4.api.AppNetworking;
 import marko.mitrovic.singidroid4.newsPager.PaginationAdapter;
 import marko.mitrovic.singidroid4.newsPager.PaginationScrollListener;
+import marko.mitrovic.singidroid4.newsPager.RecyclerViewClickListener;
 import marko.mitrovic.singidroid4.repo.NewsModel;
 import marko.mitrovic.singidroid4.repo.SharedViewModel;
 import retrofit2.Call;
@@ -57,7 +59,19 @@ public class NewsFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         api = AppNetworking.getClient().create(ApiCalls.class);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
 
-        paginationAdapter = new PaginationAdapter(getContext());
+        RecyclerViewClickListener listener = (view, title, date, imageUrl, content) -> {
+            //Toast.makeText(getContext(), "Clicked on: " + title, Toast.LENGTH_SHORT).show();
+
+            Intent intent = new Intent(getActivity(), Article.class);
+            intent.putExtra("title", title);
+            intent.putExtra("date", date);
+            intent.putExtra("imageurl", imageUrl);
+            intent.putExtra("content", content);
+            startActivity(intent);
+        };
+
+
+        paginationAdapter = new PaginationAdapter(getContext(), listener);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(paginationAdapter);
 
@@ -126,7 +140,6 @@ public class NewsFragment extends Fragment implements SwipeRefreshLayout.OnRefre
                 List<NewsModel> results = response.body();
                 //Log.d("NewsFragment", results.toString());
                 if (refreshing) {
-
                     paginationAdapter.newsList.clear(); //Clear the newsList in adapter
                     currentPage = 0; //We have to reset this because it may be something greater than 0
                     paginationAdapter.addAll(results); //Add all the new stuff in

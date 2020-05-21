@@ -15,7 +15,8 @@ public class SharedViewModel extends ViewModel{
     private MutableLiveData<JsonArray> newsFaculties = new MutableLiveData<>(); //Stores list of available news sources
     private MutableLiveData<String> toolbarColor = new MutableLiveData<>(); //Used to pass color data from NewsFragmentSettingsDialog class to MainActivity
     private MutableLiveData<String> radioButtonSelected = new MutableLiveData<>(); //Used to pass radioButton tag  data from within NewsFragmentSettingsDialog class
-    private MutableLiveData<String> selectedNewsSource = new MutableLiveData<>();
+    private MutableLiveData<String> selectedNewsSource = new MutableLiveData<>(); //Selected news source ID (example "3,4")
+    private MutableLiveData<NewsModel> selectedArticle = new MutableLiveData<>();
 
     public LiveData<JsonArray> getFacultiesArray() {
         return facultiesArray;
@@ -90,6 +91,14 @@ public class SharedViewModel extends ViewModel{
 
     public void setSelectedNewsSource(String input) {
         selectedNewsSource.postValue(input);
+    }
+
+    public LiveData<NewsModel> getSelectedArticle() {
+        return selectedArticle;
+    }
+
+    public void setSelectedArticle(NewsModel input) {
+        selectedArticle.postValue(input);
     }
 
 

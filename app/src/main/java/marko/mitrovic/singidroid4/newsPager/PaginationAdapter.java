@@ -1,20 +1,19 @@
 package marko.mitrovic.singidroid4.newsPager;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import marko.mitrovic.singidroid4.R;
 import marko.mitrovic.singidroid4.repo.NewsModel;
+import marko.mitrovic.singidroid4.repo.SharedViewModel;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -23,11 +22,16 @@ public class PaginationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     private static final int LOADING = 0;
     private static final int ITEM = 1;
     public List<NewsModel> newsList;
+    private SharedViewModel viewModel;
     private Context context;
     private boolean isLoadingAdded = false;
 
-    public PaginationAdapter(Context context) {
+    private RecyclerViewClickListener mListener;
+
+
+    public PaginationAdapter(Context context, RecyclerViewClickListener listener) {
         this.context = context;
+        mListener = listener;
         newsList = new LinkedList<>();
     }
 
@@ -39,11 +43,13 @@ public class PaginationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         RecyclerView.ViewHolder viewHolder = null;
+
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+
         switch (viewType) {
             case ITEM:
                 View viewItem = inflater.inflate(R.layout.news_list, parent, false);
-                viewHolder = new NewsViewHolder(viewItem);
+                viewHolder = new NewsViewHolder(viewItem, mListener);
                 break;
             case LOADING:
                 View viewLoading = inflater.inflate(R.layout.item_progress, parent, false);
@@ -55,17 +61,6 @@ public class PaginationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-
-        holder.itemView.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                NewsModel newsModel = newsList.get(position);
-
-                Log.d("Clicked", newsModel.getPost_title());
-                
-                Toast.makeText(v.getContext(), newsModel.getPost_title(), Toast.LENGTH_SHORT).show(); //Shows toast
-            }
-        });
 
         NewsModel post = newsList.get(position);
         switch (getItemViewType(position)) {
@@ -119,34 +114,33 @@ public class PaginationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         }
     }
 
-    public void removeAll(List<NewsModel> posts, boolean refreshing) {
-        newsList.clear();
-        for (int i = 0; i < newsList.size(); i++) {
-            newsList.remove(i);
-            notifyItemRemoved(i);
-        }
-        for (NewsModel result : posts) {
-            add(result);
-        }
-        notifyDataSetChanged();
-    }
 
 
     public NewsModel getItem(int position) {
         return newsList.get(position);
     }
 
-    public class NewsViewHolder extends RecyclerView.ViewHolder{
+    public class NewsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         private TextView postTitle, postDescription;
         private ImageView postImage;
 
-        public NewsViewHolder(View itemView) {
+
+        public NewsViewHolder(View itemView, RecyclerViewClickListener listener) {
             super(itemView);
             postTitle = itemView.findViewById(R.id.post_title);
             postDescription = itemView.findViewById(R.id.post_description);
             postImage = itemView.findViewById(R.id.post_image);
 
+            mListener = listener;
+            itemView.setOnClickListener(this);
+
             //itemView.setOnClickListener(new );
+        }
+
+        @Override
+        public void onClick(View v) {
+            NewsModel newsModel = newsList.get(getAdapterPosition());
+            mListener.onClick(v, newsModel.getPost_title(), newsModel.getPost_date(), newsModel.getCover_image_path(), newsModel.getPlain_text());
         }
     }
 

@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import marko.mitrovic.singidroid4.MainActivity;
 import marko.mitrovic.singidroid4.R;
 
 public class AboutFragment extends Fragment {
@@ -21,7 +20,7 @@ public class AboutFragment extends Fragment {
 
 
 
-        ((MainActivity) getActivity()).setStatusBarColor(0, 0, "#008A94", false);
+        //((MainActivity) getActivity()).setStatusBarColor(0, 0, "#008A94", false);
 
 
 
