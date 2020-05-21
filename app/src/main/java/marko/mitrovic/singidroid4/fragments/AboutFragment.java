@@ -21,7 +21,7 @@ public class AboutFragment extends Fragment {
 
 
 
-        ((MainActivity)getActivity()).setStatusBarColor(0,0,"#008A94");
+        ((MainActivity) getActivity()).setStatusBarColor(0, 0, "#008A94", false);
 
 
 

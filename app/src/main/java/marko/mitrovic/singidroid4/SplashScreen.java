@@ -1,21 +1,13 @@
 package marko.mitrovic.singidroid4;
 
-import android.app.AlertDialog;
-import android.app.ListActivity;
-import android.app.ProgressDialog;
-import android.content.Context;
+
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
-import android.view.View;
 import android.widget.ProgressBar;
-
 import androidx.appcompat.app.AppCompatActivity;
-import marko.mitrovic.singidroid4.api.AppNetworking;
-import org.json.JSONArray;
 
 public class SplashScreen extends AppCompatActivity {
 
@@ -23,7 +15,7 @@ public class SplashScreen extends AppCompatActivity {
 
     SharedPreferences prefs = null;
     String TAG = "SpashScreenTAG";
-    private final int SPLASH_DISPLAY_LENGTH = 1000;
+    private final int SPLASH_DISPLAY_LENGTH = 500;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,14 +38,8 @@ public class SplashScreen extends AppCompatActivity {
 
     }
 
+
     public void runAppInit(){ //Runs the AppIntro(AppInit class) and makes 1 call to the server
-        AppNetworking net = new AppNetworking();
-        JSONArray response = null;
-
-
-
-
-        Log.i("Response", String.valueOf(response));
 
         Intent intent = new Intent(this,AppInit.class);
         startActivity(intent);

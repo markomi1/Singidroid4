@@ -32,15 +32,16 @@
         app:layout_constraintVertical_bias="0.306" />
 
     <ProgressBar
-        android:progressTint="#FFFFFF"
-        android:id="@+id/progressBar_cyclic"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_marginBottom="150dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
+            android:progressTint="#FFFFFF"
+            android:id="@+id/progressBar_cyclic"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginBottom="150dp"
+            android:progressDrawable="@drawable/circular_progressbar"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

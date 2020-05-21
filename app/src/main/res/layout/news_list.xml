@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent" android:layout_height="wrap_content"
+        app:cardUseCompatPadding="true"
+>
+
+    <com.google.android.material.circularreveal.CircularRevealRelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+    >
+
+        <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="75dp"
+                android:layout_height="75dp"
+                android:id="@+id/post_image"
+                android:src="@drawable/ic_singidunum_logo"
+        />
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/post_title"
+                android:text="Loading title..."
+                android:textSize="22dp"
+                android:textColor="#000"
+                android:layout_toRightOf="@id/post_image"
+                android:layout_toEndOf="@+id/post_image"
+                android:layout_marginLeft="20dp"
+        />
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/post_description"
+                android:text="Loading description...."
+                android:textSize="18dp"
+                android:textColor="#a9a9a9"
+                android:layout_toRightOf="@id/post_image"
+                android:layout_toEndOf="@id/post_image"
+                android:layout_below="@id/post_title"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="5dp"
+        />
+
+
+    </com.google.android.material.circularreveal.CircularRevealRelativeLayout>
+
+
+</androidx.cardview.widget.CardView>

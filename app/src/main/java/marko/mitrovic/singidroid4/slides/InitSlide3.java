@@ -1,8 +1,6 @@
 package marko.mitrovic.singidroid4.slides;
 
-import android.content.Context;
 import android.graphics.Color;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,14 +13,17 @@ import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import com.github.paolorotolo.appintro.ISlidePolicy;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import marko.mitrovic.singidroid4.R;
+import marko.mitrovic.singidroid4.api.ApiCalls;
 import marko.mitrovic.singidroid4.api.AppNetworking;
 import marko.mitrovic.singidroid4.repo.SharedViewModel;
-import org.json.JSONArray;
-import org.json.JSONException;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class InitSlide3 extends Fragment implements ISlidePolicy {
@@ -32,6 +33,7 @@ public class InitSlide3 extends Fragment implements ISlidePolicy {
     private String toggleID;
     private View view;
     private ProgressBar progressBar;
+    private ApiCalls api;
 
     public static InitSlide3 newInstance(int layoutResId2) {
         InitSlide3 InitSlide3 = new InitSlide3();
@@ -64,15 +66,29 @@ public class InitSlide3 extends Fragment implements ISlidePolicy {
         viewModel = new ViewModelProvider(getActivity()).get(SharedViewModel.class);
 
 
+        viewModel.getSelectedYear().observe(getViewLifecycleOwner(), input -> {
+            progressBar.setVisibility(view.VISIBLE);
+            api = AppNetworking.getClient().create(ApiCalls.class);
+            String faks = viewModel.getSelectedFaculty().getValue();
+            String year = viewModel.getSelectedYear().getValue();
+            api.getCourse(faks, year).enqueue(new Callback<JsonArray>(){
+                @Override
+                public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {
+                    progressBar.setVisibility(View.INVISIBLE);
+                    Log.d("Call", String.valueOf(response.body()));
+                    viewModel.setFacultiesArray(response.body());
+
+                    AddButton(response.body(), false);
 
 
-        viewModel.getSelectedYear().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(String input) {
-                String FacultiesAndYears = "?faks=" + viewModel.getSelectedFaculty().getValue() + "&year=" + viewModel.getSelectedYear().getValue();
-                getCourses task = new getCourses(getContext(), "appInit/getCourse" + FacultiesAndYears);
-                task.execute();
-            }
+                }
+
+                @Override
+                public void onFailure(Call<JsonArray> call, Throwable t) {
+                    Log.e("Call", "Failed, dumping stack trace:");
+                    Log.e("Get Faculties Failed", call + " " + t);
+                }
+            });
         });
 
 
@@ -88,7 +104,7 @@ public class InitSlide3 extends Fragment implements ISlidePolicy {
         Log.d("SampleSlide", "Illegal Request made 2");
     }
 
-    public void AddButton(JSONArray toSet, boolean b) throws JSONException {
+    public void AddButton(JsonArray toSet, boolean b) {
         Log.d("AddButtonInitSlide2", toSet.toString());
         if (toSet == null) {
             return;
@@ -98,12 +114,14 @@ public class InitSlide3 extends Fragment implements ISlidePolicy {
         if (buttonCount != 0 && b) {
             lin.removeAllViews();
         }
-        for (int i = 0; i < toSet.length(); i++) {
+        for (int i = 0; i < toSet.size(); i++) {
+            JsonObject t = toSet.get(i).getAsJsonObject();
+
             ToggleButton newBtn = new ToggleButton(getContext());
-            newBtn.setText(toSet.getJSONObject(i).getString("title"));
-            newBtn.setTextOn(toSet.getJSONObject(i).getString("title"));
-            newBtn.setTextOff(toSet.getJSONObject(i).getString("title"));
-            newBtn.setTag(toSet.getJSONObject(i).getString("courses_id"));
+            newBtn.setText(t.get("title").getAsString());
+            newBtn.setTextOn(t.get("title").getAsString());
+            newBtn.setTextOff(t.get("title").getAsString());
+            newBtn.setTag(t.get("courses_id").getAsString());
             newBtn.setId(ViewCompat.generateViewId());
             newBtn.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.init_button));
             newBtn.setHeight(60);
@@ -140,50 +158,5 @@ public class InitSlide3 extends Fragment implements ISlidePolicy {
 
 
     }
-
-
-
-
-
-    private class getCourses extends AsyncTask<String, Void, JSONArray> {
-        private Context mContext;
-        private String module;
-
-        public getCourses(Context mContext, String module) {
-            this.mContext = mContext;
-            this.module = module;
-
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            progressBar.setVisibility(view.VISIBLE);
-
-        }
-
-        @Override
-        protected JSONArray doInBackground(String... strings) {
-            AppNetworking net = new AppNetworking();
-            JSONArray response = net.SyncApiCall(mContext, module);
-            return response;
-        }
-
-        @Override
-        protected void onPostExecute(JSONArray jsonArray) {
-            super.onPostExecute(jsonArray);
-            Log.d("getCoursesTask", String.valueOf(jsonArray));
-            progressBar.setVisibility(View.INVISIBLE);
-
-            try {
-                AddButton(jsonArray, true);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-        }
-    }
-
-
 }
 

@@ -1,8 +1,6 @@
 package marko.mitrovic.singidroid4.slides;
 
-import android.content.Context;
 import android.graphics.Color;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,25 +15,31 @@ import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import com.github.paolorotolo.appintro.ISlidePolicy;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import marko.mitrovic.singidroid4.R;
+import marko.mitrovic.singidroid4.api.ApiCalls;
 import marko.mitrovic.singidroid4.api.AppNetworking;
 import marko.mitrovic.singidroid4.repo.SharedViewModel;
-import org.json.JSONArray;
-import org.json.JSONException;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
-public class InitSlide1 extends Fragment implements ISlidePolicy {
+public class InitSlide1 extends Fragment implements ISlidePolicy{
     private static final String ARG_LAYOUT_RES_ID = "layoutResId";
     private int layoutResId;
     private Switch switchBtn;
     private String toggleID;
     private SharedViewModel viewModel;
-
+    private Gson gson;
+    private ApiCalls api;
     private boolean switchState;
     private ProgressBar progressBar;
     private View view;
+
     public static InitSlide1 newInstance(int layoutResId2) {
         InitSlide1 initSlide1 = new InitSlide1();
         Bundle args = new Bundle();
@@ -70,22 +74,36 @@ public class InitSlide1 extends Fragment implements ISlidePolicy {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         viewModel = new ViewModelProvider(getActivity()).get(SharedViewModel.class);
-        viewModel.getFacultiesArray().observe(getViewLifecycleOwner(), new Observer<JSONArray>() {
-            @Override
-            public void onChanged(JSONArray jsonArray) {
 
-            }
-        });
 
-        if(viewModel.getFacultiesArray().getValue() == null){
-            getFaculties task = new getFaculties(getContext(), "appInit/getFaculties");
-            task.execute();
+        if (viewModel.getFacultiesArray().getValue() == null) {
+            //getFaculties task = new getFaculties(getContext(), "appInit/getFaculties");
+            progressBar.setVisibility(view.VISIBLE);
+
+            api = AppNetworking.getClient().create(ApiCalls.class);
+            api.getFaculties().enqueue(new Callback<JsonArray>(){
+                @Override
+                public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {
+                    progressBar.setVisibility(View.INVISIBLE);
+                    Log.d("Call", String.valueOf(response.body()));
+                    viewModel.setFacultiesArray(response.body());
+
+                    AddButton(response.body(), false);
+
+
+                }
+
+                @Override
+                public void onFailure(Call<JsonArray> call, Throwable t) {
+                    Log.e("Call", "Failed, dumping stack trace:");
+                    Log.e("Get Faculties Failed", call + " " + t);
+                }
+            });
+
+            //Log.d("Call", String.valueOf(AppNetworking.getClient().fetchFeed()));
+            //task.execute();
         }else{
-            try {
                 AddButton(viewModel.getFacultiesArray().getValue(),false);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
         }
     }
 
@@ -98,16 +116,6 @@ public class InitSlide1 extends Fragment implements ISlidePolicy {
 
     @Override
     public boolean isPolicyRespected() {
-        /*try{
-            if(switchBtn != null){
-                switchState = switchBtn.isChecked();
-            }else{
-                switchState = false;
-            }
-        }catch (Exception e){
-            Log.e("Error", String.valueOf(e));
-        }*/
-
         if(switchState){
             return true;
         }else{
@@ -124,29 +132,33 @@ public class InitSlide1 extends Fragment implements ISlidePolicy {
     }
 
 
-    public void AddButton(JSONArray toSet, boolean b) throws JSONException {
+    public void AddButton(JsonArray toSet, boolean b) {
 
-        if(toSet == null){
+        if (toSet == null) {
             return;
         }
         RadioGroup lin = (RadioGroup) view.findViewById(R.id.toggleGroup);
         int buttonCount = lin.getChildCount();
-        if(buttonCount != 0 && b){
+        if (buttonCount != 0 && b) {
             lin.removeAllViews();
         }
-        for(int i = 0; i  < toSet.length();i++){
+
+
+        for (int i = 0; i < toSet.size(); i++) {
+            JsonObject t = toSet.get(i).getAsJsonObject();
+
             ToggleButton newBtn = new ToggleButton(getContext());
-            newBtn.setText(toSet.getJSONObject(i).getString("title"));
-            newBtn.setTextOn(toSet.getJSONObject(i).getString("title"));
-            newBtn.setTextOff(toSet.getJSONObject(i).getString("title"));
-            newBtn.setTag(toSet.getJSONObject(i).getString("id"));
+            newBtn.setText(t.get("title").getAsString());
+            newBtn.setTextOn(t.get("title").getAsString());
+            newBtn.setTextOff(t.get("title").getAsString());
+            newBtn.setTag(t.get("id").getAsString());
             newBtn.setId(ViewCompat.generateViewId());
-            newBtn.setBackground(ContextCompat.getDrawable(getContext(),R.drawable.init_button));
+            newBtn.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.init_button));
             newBtn.setHeight(60);
             newBtn.setTextColor(Color.parseColor("#ffffff"));
             newBtn.setTextSize(18);
 
-            if(newBtn.getText().toString().equals(toggleID)){
+            if (newBtn.getText().toString().equals(toggleID)) {
                 newBtn.setChecked(true);
             }
 
@@ -176,48 +188,5 @@ public class InitSlide1 extends Fragment implements ISlidePolicy {
 
 
     }
-
-
-
-    private class getFaculties extends AsyncTask<String,Void, JSONArray> {
-        private Context mContext;
-        private String faks;
-
-        public getFaculties(Context mContext, String faks) {
-            this.mContext = mContext;
-            this.faks = faks;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            progressBar.setVisibility(view.VISIBLE);
-
-        }
-
-        @Override
-        protected JSONArray doInBackground(String... strings) {
-            AppNetworking net = new AppNetworking();
-            JSONArray response = net.SyncApiCall(mContext,faks);
-            viewModel.setFacultiesArray(response);
-            return response;
-        }
-
-        @Override
-        protected void onPostExecute(JSONArray jsonArray) {
-            super.onPostExecute(jsonArray);
-            Log.d("getFacultiesTask", String.valueOf(jsonArray));
-            progressBar.setVisibility(View.INVISIBLE);
-
-            try {
-                AddButton(jsonArray, false);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-        }
-    }
-
-
 
 }

@@ -16,9 +16,10 @@ import androidx.appcompat.app.AppCompatDialogFragment;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.ViewCompat;
 import androidx.lifecycle.ViewModelProvider;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import marko.mitrovic.singidroid4.R;
 import marko.mitrovic.singidroid4.repo.SharedViewModel;
-import org.json.JSONArray;
 import org.json.JSONException;
 
 public class NewsFragmentSettingsDialog extends AppCompatDialogFragment {
@@ -40,7 +41,7 @@ public class NewsFragmentSettingsDialog extends AppCompatDialogFragment {
 
         view = inflater.inflate(R.layout.news_settings_dialog, null);
 
-        final JSONArray newsFaculties = viewModel.getNewsFaculties().getValue(); //We get the value from the repo and put it in local var for later use
+        final JsonArray newsFaculties = viewModel.getNewsFaculties().getValue(); //We get the value from the repo and put it in local var for later use
 
         if (studentPerfs.getString("NewsSource", "").equals("")) {
             //If the app is firsttime run then the shared pref NewsSource would be null, so it returns an empty string, and we check for that, if true then we set ----
@@ -48,6 +49,7 @@ public class NewsFragmentSettingsDialog extends AppCompatDialogFragment {
             try {
                 addRadioButtons(newsFaculties, "US");
                 studentPerfs.edit().putString("NewsSource", "US").apply();
+                studentPerfs.edit().putString("Categories", "3,4").apply();
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -68,22 +70,22 @@ public class NewsFragmentSettingsDialog extends AppCompatDialogFragment {
 
 
                     String selected = viewModel.getRadioButtonSeleted().getValue(); //We get the selected radio button from the repo
-                    for (int i = 0; i < newsFaculties.length(); i++) { // we lope over the JSON file that we received
-                        try {
-                            if (newsFaculties.getJSONObject(i).getString("faculty_short").equals(selected)) {
-                                //Here we check to see if the selected radio button acronym matches the one in the JSON
-                                String color = "#" + newsFaculties.getJSONObject(i).getString("color"); //If it does we store the color of it
-                                String newsSource = newsFaculties.getJSONObject(i).getString("faculty_short");// And it's acronym
-                                viewModel.setToolbarColor(color); //We notify the function that's observing this variable to change the color of the toolbar
-                                studentPerfs.edit().putString("Color", color).apply(); //We save the color used in the shared preferences
-                                studentPerfs.edit().putString("NewsSource", newsSource).apply(); //We also save the News Source in the shared preferences
-                                break;
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                    for (int i = 0; i < newsFaculties.size(); i++) { // we lope over the JSON file that we received
+                        JsonObject t = newsFaculties.get(i).getAsJsonObject();
+                        if (t.get("faculty_short").getAsString().equals(selected)) {
+                            //Here we check to see if the selected radio button acronym matches the one in the JSON
+                            String color = "#" + t.get("color").getAsString(); //If it does we store the color of it
+                            String newsSource = t.get("faculty_short").getAsString();// And it's acronym
+                            String categories = t.get("categories").getAsString();
+                            viewModel.setToolbarColor(color); //We notify the function that's observing this variable to change the color of the toolbar
+                            studentPerfs.edit().putString("Color", color).apply(); //We save the color used in the shared preferences
+                            studentPerfs.edit().putString("NewsSource", newsSource).apply(); //We also save the News Source in the shared preferences
+                            studentPerfs.edit().putString("Categories", categories).apply();
+                            viewModel.setSelectedNewsSource(categories);
+
+                            break;
                         }
                     }
-
                 }
             }
         }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -99,23 +101,24 @@ public class NewsFragmentSettingsDialog extends AppCompatDialogFragment {
     }
 
 
-    public void addRadioButtons(JSONArray toSet, String previousSelection) throws JSONException {
+    public void addRadioButtons(JsonArray toSet, String previousSelection) throws JSONException {
         if (toSet == null) {
             return;
         }
         lin = (RadioGroup) view.findViewById(R.id.news_sources_radio_group);//We get the Radio Group so we can get the button access it's members
         lin.removeAllViews(); // remove old members
-        for (int i = 0; i <= toSet.length(); i++) {
+        for (int i = 0; i < toSet.size(); i++) {
+            JsonObject t = toSet.get(i).getAsJsonObject();
             RadioButton rdbtn = new RadioButton(getActivity()); //Make a radio button
-            String textToSet = (String) toSet.getJSONObject(i).getString("faculty_short") + " - " + toSet.getJSONObject(i).getString("faculty_title");
+            String textToSet = (String) t.get("faculty_short").getAsString() + " - " + t.get("faculty_title").getAsString();
             // ^ Makes it look like  example: US - Singidunum
-            String temp = toSet.getJSONObject(i).getString("faculty_short");
+            String temp = t.get("faculty_short").getAsString();
             if (temp.equals(previousSelection)) { //Check to see what to check by default.
                 rdbtn.setChecked(true);
             }
 
             rdbtn.setText(textToSet); //Give it title
-            rdbtn.setTag(toSet.getJSONObject(i).getString("faculty_short")); //Give it a tag as well
+            rdbtn.setTag(t.get("faculty_short").getAsString()); //Give it a tag as well
             rdbtn.setId(ViewCompat.generateViewId()); //Generate random ID
             rdbtn.setBackground(ContextCompat.getDrawable(getActivity(), R.drawable.ic_news_radio_buttons)); //Set background to custom button layout
 

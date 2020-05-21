@@ -3,11 +3,9 @@ package marko.mitrovic.singidroid4;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
@@ -24,12 +22,16 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
+import com.google.gson.JsonArray;
+import marko.mitrovic.singidroid4.api.ApiCalls;
 import marko.mitrovic.singidroid4.api.AppNetworking;
 import marko.mitrovic.singidroid4.fragments.AboutFragment;
 import marko.mitrovic.singidroid4.fragments.NewsFragment;
 import marko.mitrovic.singidroid4.fragments.NewsFragmentSettingsDialog;
 import marko.mitrovic.singidroid4.repo.SharedViewModel;
-import org.json.JSONArray;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -42,6 +44,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private SharedViewModel viewModel; //Shared repo
     private NewsFragmentSettingsDialog newsSettings;
     private SharedPreferences studentPerfs;
+    private ApiCalls api;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,6 +64,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         newsSettings = new NewsFragmentSettingsDialog(); //Setting newsSetting var
+
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
@@ -82,11 +86,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         viewModel.getToolBarColor().observe(this, new Observer<String>() {
             @Override
             public void onChanged(String s) { //This is only called when the getToolbarColor variable is updated from NewsFragmentSettingsDialog class
-                setStatusBarColor(0, 0, s); //sets the color of the toolbar to the given one from NewsFragmentSettingsDialog class
+                setStatusBarColor(0, 0.9f, s, false); //sets the color of the toolbar to the given one from NewsFragmentSettingsDialog class
+
             }
         });
 
-        setStatusBarColor(0, 0, studentPerfs.getString("Color", "#A8011D"));
+        setStatusBarColor(0, 0.9f, studentPerfs.getString("Color", "#A8011D"), false);
         //Sets it to the default color if nothing is found, if it does find something it sets it to that color
     }
 
@@ -120,6 +125,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+
         switch (item.getItemId()){
             case R.id.nav_vesti:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new NewsFragment()).commit();
@@ -128,29 +135,57 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new AboutFragment()).commit();
                 break;
         }
+
+
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 
 
-    public boolean appInit(){
+    public boolean appInit() {
 
         return false;
     }
 
-    public void setStatusBarColor(int Alpha,float darkness,String hex){ //Change status Bar and Toolbar color to given HEX value, automatically darkens
-        if(Alpha == 0){
+    public void setStatusBarColor(int Alpha, float darkness, String hex, boolean darkMode) { //Change status Bar and Toolbar color to given HEX value, automatically darkens
+        int color;
+        int darkerColor;
+        int dakrToolbar;
+
+        if (Alpha == 0) {
             Alpha = 200;
         }
-        if(darkness == 0){
+
+        if (darkness == 0) {
             darkness = 0.9f;
         }
-        float[] hsv = new float[3];
-        int color = Color.parseColor(hex);
-        Color.colorToHSV(color, hsv);
-        hsv[2] *= darkness; // value component
-        int darkerColor = Color.HSVToColor(Alpha,hsv);
 
+        float[] hsv = new float[3]; //Make HSV float
+
+
+        color = Color.parseColor(hex); //Parse normal color
+
+
+        Color.colorToHSV(color, hsv);
+
+        hsv[2] *= darkness; // value component
+
+        darkerColor = Color.HSVToColor(Alpha, hsv);
+        if (darkMode) { //Makes shit darker, magic, don't touch
+            float[] hsvToolbar = new float[3];
+            float sub = darkness - 0.2f;
+
+            Color.colorToHSV(color, hsvToolbar);
+            hsvToolbar[2] *= sub;
+            dakrToolbar = Color.HSVToColor(hsvToolbar);
+
+            hsv[2] *= darkness - 0.7f; // value component
+
+            darkerColor = Color.HSVToColor(Alpha, hsv);
+
+
+            toolbar.setBackgroundColor(dakrToolbar);
+        }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();
@@ -158,7 +193,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             window.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN);
 
             window.getDecorView().setFitsSystemWindows(true);
-            toolbar.setBackgroundColor(color);
+            if (!darkMode) {
+                toolbar.setBackgroundColor(color);
+            }
             window.setStatusBarColor(darkerColor);
 
         }
@@ -169,44 +206,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
         if (viewModel.getNewsFaculties().getValue() == null) {
-            getNewsRepo task = new getNewsRepo(this, "news/getSources");
-            task.execute();
+            api = AppNetworking.getClient().create(ApiCalls.class);
+            api.getNewsSources().enqueue(new Callback<JsonArray>(){
+                @Override
+                public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {
+                    viewModel.setNewsFaculties(response.body());
+                    newsSettings.show(getSupportFragmentManager(), "test");
+                }
+
+                @Override
+                public void onFailure(Call<JsonArray> call, Throwable t) {
+
+                }
+            });
         } else {
             newsSettings.show(getSupportFragmentManager(), "test");
         }
 
 
-    }
-
-    private class getNewsRepo extends AsyncTask<String, Void, JSONArray> {
-        private Context mContext;
-        private String faks;
-
-        public getNewsRepo(Context mContext, String faks) {
-            this.mContext = mContext;
-            this.faks = faks;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            //progressBar.setVisibility(view.VISIBLE);
-
-        }
-
-        @Override
-        protected JSONArray doInBackground(String... strings) {
-            AppNetworking net = new AppNetworking();
-            JSONArray response = net.SyncApiCall(mContext, faks);
-            viewModel.setNewsFaculties(response);
-            return response;
-        }
-
-        @Override
-        protected void onPostExecute(JSONArray jsonArray) {
-            super.onPostExecute(jsonArray);
-            Log.d("getNewsTask  ", String.valueOf(jsonArray));
-            newsSettings.show(getSupportFragmentManager(), "test");
-        }
     }
 }
