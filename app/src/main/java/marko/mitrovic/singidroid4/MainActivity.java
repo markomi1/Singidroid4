@@ -28,6 +28,7 @@ import marko.mitrovic.singidroid4.api.AppNetworking;
 import marko.mitrovic.singidroid4.fragments.AboutFragment;
 import marko.mitrovic.singidroid4.fragments.NewsFragment;
 import marko.mitrovic.singidroid4.fragments.NewsFragmentSettingsDialog;
+import marko.mitrovic.singidroid4.fragments.Predmet;
 import marko.mitrovic.singidroid4.repo.SharedViewModel;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -127,12 +128,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
 
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.nav_vesti:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new NewsFragment()).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new NewsFragment()).commit();
                 break;
             case R.id.nav_o_aplikaciji:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new AboutFragment()).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new AboutFragment()).commit();
+                break;
+            case R.id.nav_stranice_predmeta:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Predmet()).commit();
                 break;
         }
 

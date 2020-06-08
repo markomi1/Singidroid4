@@ -9,6 +9,8 @@ public class SharedViewModel extends ViewModel{
     private MutableLiveData<JsonArray> facultiesArray = new MutableLiveData<>(); //Used for storing faculties JSON
 
     private MutableLiveData<JsonArray> yearsArray = new MutableLiveData<>(); //Used for storing years Array
+
+    private MutableLiveData<JsonArray> coursesArray = new MutableLiveData<>(); //Stores courses
     private MutableLiveData<String> selectedFaculty = new MutableLiveData<>(); //Stores selected faculty ID
     private MutableLiveData<String> selectedYear = new MutableLiveData<>(); //Stores selected year ID
     private MutableLiveData<String> selectedCourse = new MutableLiveData<>(); //Stores selected Course ID
@@ -33,6 +35,15 @@ public class SharedViewModel extends ViewModel{
     public void setYearsArray(JsonArray input) {
         yearsArray.postValue(input);
     }
+
+    public LiveData<JsonArray> getCoursesArray() {
+        return coursesArray;
+    }
+
+    public void setCoursesArray(JsonArray input) {
+        coursesArray.postValue(input);
+    }
+
 
     public void setSelectedFaculty(String input) {
         selectedFaculty.postValue(input);

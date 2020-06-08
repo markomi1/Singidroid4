@@ -56,7 +56,7 @@ public class AppInit extends AppIntro2 {
                         prefs.edit().putBoolean("firstrun", false).apply(); //Set the flag to false so that init is complete.
 
 
-                        saveToSharedPref("default", "0", "default"); //Sets the StudentProf to "default" values only if he skips the AppInit part.
+                        saveToSharedPref("default", "0", "default", true); //Sets the StudentProf to "default" values only if he skips the AppInit part.
 
                         Intent mainIntent = new Intent(AppInit.this, SplashScreen.class);
                         AppInit.this.startActivity(mainIntent);
@@ -87,7 +87,7 @@ public class AppInit extends AppIntro2 {
                         prefs.edit().putBoolean("firstrun", false).apply(); //Set the flag to false so that init is complete,
 
                         saveToSharedPref(viewModel.getSelectedFaculty().getValue(),
-                                viewModel.getSelectedYear().getValue(),viewModel.getSelectedCourse().getValue()); //Gets all the values and sends them to be stored
+                                viewModel.getSelectedYear().getValue(), viewModel.getSelectedCourse().getValue(), false); //Gets all the values and sends them to be stored
 
                         Intent mainIntent = new Intent(AppInit.this,SplashScreen.class);
                         AppInit.this.startActivity(mainIntent);
@@ -115,11 +115,12 @@ public class AppInit extends AppIntro2 {
 
     }*/
 
-    public void saveToSharedPref(String faks,String year,String courseid){
-        SharedPreferences studentPerfs= getSharedPreferences("StudentPrefs", Context.MODE_PRIVATE); //Saves student faculty/year/course choice
+    public void saveToSharedPref(String faks, String year, String courseid, boolean skipped) {
+        SharedPreferences studentPerfs = getSharedPreferences("StudentPrefs", Context.MODE_PRIVATE); //Saves student faculty/year/course choice
+        studentPerfs.edit().putBoolean("SkippedInit", skipped).apply();
         studentPerfs.edit().putString("FacultyChoice", faks).apply();
-        studentPerfs.edit().putString("YearChoice",year).apply();
-        studentPerfs.edit().putString("CourseChoice",courseid).apply();
+        studentPerfs.edit().putString("YearChoice", year).apply();
+        studentPerfs.edit().putString("CourseChoice", courseid).apply();
 
     }
 

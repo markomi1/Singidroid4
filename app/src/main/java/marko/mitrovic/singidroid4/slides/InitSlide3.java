@@ -71,14 +71,15 @@ public class InitSlide3 extends Fragment implements ISlidePolicy {
             api = AppNetworking.getClient().create(ApiCalls.class);
             String faks = viewModel.getSelectedFaculty().getValue();
             String year = viewModel.getSelectedYear().getValue();
+
             api.getCourse(faks, year).enqueue(new Callback<JsonArray>(){
                 @Override
                 public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {
                     progressBar.setVisibility(View.INVISIBLE);
                     Log.d("Call", String.valueOf(response.body()));
-                    viewModel.setFacultiesArray(response.body());
+                    viewModel.setCoursesArray(response.body());
 
-                    AddButton(response.body(), false);
+                    AddButton(response.body(), true);
 
 
                 }

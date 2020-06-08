@@ -66,8 +66,8 @@ public class InitSlide2  extends Fragment implements ISlidePolicy {
         super.onActivityCreated(savedInstanceState);
         viewModel = new ViewModelProvider(getActivity()).get(SharedViewModel.class);
 
-        if(viewModel.getFacultiesArray().getValue() == null) {
-            //getFaculties task = new getFaculties(getContext(), "appInit/getFaculties");
+        if (viewModel.getYearsArray().getValue() == null) {
+
             progressBar.setVisibility(view.VISIBLE);
 
             api = AppNetworking.getClient().create(ApiCalls.class);
@@ -76,7 +76,7 @@ public class InitSlide2  extends Fragment implements ISlidePolicy {
                 public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {
                     progressBar.setVisibility(View.INVISIBLE);
                     Log.d("Call", String.valueOf(response.body()));
-                    viewModel.setFacultiesArray(response.body());
+                    viewModel.setYearsArray(response.body());
 
                     AddButton(response.body(), false);
 

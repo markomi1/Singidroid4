@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import marko.mitrovic.singidroid4.Article;
 import marko.mitrovic.singidroid4.R;
 import marko.mitrovic.singidroid4.api.ApiCalls;
 import marko.mitrovic.singidroid4.api.AppNetworking;
@@ -155,6 +157,14 @@ public class NewsFragment extends Fragment implements SwipeRefreshLayout.OnRefre
 
             @Override
             public void onFailure(Call<List<NewsModel>> call, Throwable t) {
+                Log.e("NewsFragment Error", String.valueOf(call));
+                Log.e("NewsFragment Error", String.valueOf(t));
+                //Log.e("NewsFragment Error", String.valueOf(t.getStackTrace()));
+                try {
+                    throw t;
+                } catch (Throwable throwable) {
+                    throwable.printStackTrace();
+                }
                 Toast.makeText(view.getContext(), "Error was encountered while trying to load content", Toast.LENGTH_LONG).show();
             }
 
