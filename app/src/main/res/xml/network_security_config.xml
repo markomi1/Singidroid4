@@ -5,7 +5,7 @@
     <domain-config>
         <domain includeSubdomains="true">192.168.4.110</domain>
         <trust-anchors>
-            <certificates src="@raw/mycert2"/>
+            <certificates src="@raw/client"/>
         </trust-anchors>
     </domain-config>
 

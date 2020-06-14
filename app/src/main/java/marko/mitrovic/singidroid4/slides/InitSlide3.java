@@ -53,7 +53,7 @@ public class InitSlide3 extends Fragment implements ISlidePolicy {
     @Nullable
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(this.layoutResId, container, false);
-        progressBar = (ProgressBar) view.findViewById(R.id.userinit3progressbar);
+        progressBar = view.findViewById(R.id.userinit3progressbar);
 
         return view;
     }
@@ -68,7 +68,7 @@ public class InitSlide3 extends Fragment implements ISlidePolicy {
 
         viewModel.getSelectedYear().observe(getViewLifecycleOwner(), input -> {
             progressBar.setVisibility(view.VISIBLE);
-            api = AppNetworking.getClient().create(ApiCalls.class);
+            api = AppNetworking.getClient(getContext()).create(ApiCalls.class);
             String faks = viewModel.getSelectedFaculty().getValue();
             String year = viewModel.getSelectedYear().getValue();
 
@@ -79,6 +79,7 @@ public class InitSlide3 extends Fragment implements ISlidePolicy {
                     Log.d("Call", String.valueOf(response.body()));
                     viewModel.setCoursesArray(response.body());
 
+
                     AddButton(response.body(), true);
 
 
@@ -86,8 +87,9 @@ public class InitSlide3 extends Fragment implements ISlidePolicy {
 
                 @Override
                 public void onFailure(Call<JsonArray> call, Throwable t) {
-                    Log.e("Call", "Failed, dumping stack trace:");
-                    Log.e("Get Faculties Failed", call + " " + t);
+                    Log.e("Call_getCourse", "Failed, dumping stack trace:");
+                    t.printStackTrace();
+
                 }
             });
         });
@@ -106,10 +108,10 @@ public class InitSlide3 extends Fragment implements ISlidePolicy {
     }
 
     public void AddButton(JsonArray toSet, boolean b) {
-        Log.d("AddButtonInitSlide2", toSet.toString());
         if (toSet == null) {
             return;
         }
+        Log.d("AddButtonInitSlide2", toSet.toString());
         RadioGroup lin = (RadioGroup) view.findViewById(R.id.toggleGroupUserInit3);
         int buttonCount = lin.getChildCount();
         if (buttonCount != 0 && b) {
@@ -133,22 +135,20 @@ public class InitSlide3 extends Fragment implements ISlidePolicy {
                 newBtn.setChecked(true);
             }
 
-            newBtn.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v) {
-                    RadioGroup radioGroup = (RadioGroup) v.getParent();
-                    for (int j = 0; j < radioGroup.getChildCount(); j++) {
-                        ToggleButton toggleButton = (ToggleButton) radioGroup.getChildAt(j);
-                        toggleButton.setChecked(v.getId() == toggleButton.getId());
-                        if (v.getId() == toggleButton.getId()) {
-                            toggleID = toggleButton.getText().toString();
-                            viewModel.setSelectedCourse(toggleButton.getTag().toString());
-                            Log.d("initSlide3", toggleButton.getTag().toString());
-                        }
-
-
+            newBtn.setOnClickListener(v -> {
+                RadioGroup radioGroup = (RadioGroup) v.getParent();
+                for (int j = 0; j < radioGroup.getChildCount(); j++) {
+                    ToggleButton toggleButton = (ToggleButton) radioGroup.getChildAt(j);
+                    toggleButton.setChecked(v.getId() == toggleButton.getId());
+                    if (v.getId() == toggleButton.getId()) {
+                        toggleID = toggleButton.getText().toString();
+                        viewModel.setSelectedCourse(toggleButton.getTag().toString());
+                        Log.d("initSlide3", toggleButton.getTag().toString());
                     }
 
+
                 }
+
             });
             ;
             lin.addView(newBtn);

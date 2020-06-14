@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
@@ -18,7 +19,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.lifecycle.Observer;
+import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
@@ -37,6 +38,7 @@ import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
+    private static final String TAG = "MainActivityTag";
     private DrawerLayout drawer;
     private Toolbar toolbar;
     private TabLayout tabsLayout;
@@ -46,6 +48,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private NewsFragmentSettingsDialog newsSettings;
     private SharedPreferences studentPerfs;
     private ApiCalls api;
+    private int currentSelectedItem;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,12 +87,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         viewModel = new ViewModelProvider(this).get(SharedViewModel.class); //get repo
 
-        viewModel.getToolBarColor().observe(this, new Observer<String>() {
-            @Override
-            public void onChanged(String s) { //This is only called when the getToolbarColor variable is updated from NewsFragmentSettingsDialog class
-                setStatusBarColor(0, 0.9f, s, false); //sets the color of the toolbar to the given one from NewsFragmentSettingsDialog class
+        viewModel.getToolBarColor().observe(this, s -> { //This is only called when the getToolbarColor variable is updated from NewsFragmentSettingsDialog class
 
-            }
+            setStatusBarColor(0, 0.9f, s, false); //sets the color of the toolbar to the given one from NewsFragmentSettingsDialog class
+
         });
 
         setStatusBarColor(0, 0.9f, studentPerfs.getString("Color", "#A8011D"), false);
@@ -105,6 +106,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void onBackPressed() {
+
+        if (currentSelectedItem == R.id.nav_stranice_predmeta) {
+            Log.d(TAG, "Back Pressed while Predmet page was active");
+            //
+            FragmentManager fm = getSupportFragmentManager();
+
+            Predmet fragment = (Predmet) fm.findFragmentById(R.id.fragment_container);
+            int modalNumber = fragment.modalNumber;
+            if (modalNumber > 0) {
+                fragment.closeModal();
+                return;
+            }
+        }
+
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
@@ -127,7 +142,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
-
+        currentSelectedItem = item.getItemId();
         switch (item.getItemId()) {
             case R.id.nav_vesti:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new NewsFragment()).commit();
@@ -145,11 +160,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
 
-
-    public boolean appInit() {
-
-        return false;
-    }
 
     public void setStatusBarColor(int Alpha, float darkness, String hex, boolean darkMode) { //Change status Bar and Toolbar color to given HEX value, automatically darkens
         int color;
@@ -210,7 +220,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
         if (viewModel.getNewsFaculties().getValue() == null) {
-            api = AppNetworking.getClient().create(ApiCalls.class);
+            api = AppNetworking.getClient(this).create(ApiCalls.class);
             api.getNewsSources().enqueue(new Callback<JsonArray>(){
                 @Override
                 public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {
@@ -220,11 +230,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                 @Override
                 public void onFailure(Call<JsonArray> call, Throwable t) {
-
+                    Log.e("Call_getNewsSources", "Failed, dumping stack trace:");
+                    t.printStackTrace();
+                    Toast.makeText(view.getContext(), "Error was encountered while trying to load content", Toast.LENGTH_LONG).show();
                 }
             });
         } else {
-            newsSettings.show(getSupportFragmentManager(), "test");
+            newsSettings.show(getSupportFragmentManager(), "newsSource");
         }
 
 

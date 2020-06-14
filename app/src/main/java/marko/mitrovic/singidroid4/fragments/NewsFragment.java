@@ -14,7 +14,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -58,11 +57,10 @@ public class NewsFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         viewModel = new ViewModelProvider(getActivity()).get(SharedViewModel.class); //get repo
         RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
         studentPerfs = this.getActivity().getSharedPreferences("StudentPrefs", Context.MODE_PRIVATE);
-        api = AppNetworking.getClient().create(ApiCalls.class);
+        api = AppNetworking.getClient(getContext()).create(ApiCalls.class);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
 
         RecyclerViewClickListener listener = (view, title, date, imageUrl, content) -> {
-            //Toast.makeText(getContext(), "Clicked on: " + title, Toast.LENGTH_SHORT).show();
 
             Intent intent = new Intent(getActivity(), Article.class);
             intent.putExtra("title", title);
@@ -98,12 +96,7 @@ public class NewsFragment extends Fragment implements SwipeRefreshLayout.OnRefre
 
         loadFirstPage(studentPerfs.getString("Categories", "3,4"), false);
 
-        viewModel.getSelectedNewsSource().observe(getViewLifecycleOwner(), new Observer<String>(){
-            @Override
-            public void onChanged(String s) {
-                loadFirstPage(s, true);
-            }
-        });
+        viewModel.getSelectedNewsSource().observe(getViewLifecycleOwner(), s -> loadFirstPage(s, true));
 
 
         return view;
@@ -129,7 +122,9 @@ public class NewsFragment extends Fragment implements SwipeRefreshLayout.OnRefre
 
             @Override
             public void onFailure(Call<List<NewsModel>> call, Throwable t) {
+                Log.e("Call_getNews", "Failed, dumping stack trace:");
                 t.printStackTrace();
+                Toast.makeText(view.getContext(), "Error was encountered while trying to load content", Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -141,6 +136,10 @@ public class NewsFragment extends Fragment implements SwipeRefreshLayout.OnRefre
             public void onResponse(Call<List<NewsModel>> call, Response<List<NewsModel>> response) {
                 List<NewsModel> results = response.body();
                 //Log.d("NewsFragment", results.toString());
+                if (results == null) {
+                    Toast.makeText(view.getContext(), "Error was encountered while trying to load content", Toast.LENGTH_LONG).show();
+                    return;
+                }
                 if (refreshing) {
                     paginationAdapter.newsList.clear(); //Clear the newsList in adapter
                     currentPage = 0; //We have to reset this because it may be something greater than 0
@@ -157,14 +156,8 @@ public class NewsFragment extends Fragment implements SwipeRefreshLayout.OnRefre
 
             @Override
             public void onFailure(Call<List<NewsModel>> call, Throwable t) {
-                Log.e("NewsFragment Error", String.valueOf(call));
-                Log.e("NewsFragment Error", String.valueOf(t));
-                //Log.e("NewsFragment Error", String.valueOf(t.getStackTrace()));
-                try {
-                    throw t;
-                } catch (Throwable throwable) {
-                    throwable.printStackTrace();
-                }
+                Log.e("Call_getNews_0_Page", "Failed, dumping stack trace:");
+                t.printStackTrace();
                 Toast.makeText(view.getContext(), "Error was encountered while trying to load content", Toast.LENGTH_LONG).show();
             }
 

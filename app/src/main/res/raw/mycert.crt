@@ -1,3 +1,8 @@
+Bag Attributes
+    friendlyName: singidroid
+    localKeyID: 54 69 6D 65 20 31 35 38 36 30 34 31 38 32 38 35 37 35
+subject=/C=RS/ST=Belgrade/L=Belgrade/O=Private/OU=Private/CN=Marko Mitrovic
+issuer=/C=RS/ST=Belgrade/L=Belgrade/O=Private/OU=Private/CN=Marko Mitrovic
 -----BEGIN CERTIFICATE-----
 MIIFfzCCA2egAwIBAgIESPZvTzANBgkqhkiG9w0BAQsFADBwMQswCQYDVQQGEwJS
 UzERMA8GA1UECBMIQmVsZ3JhZGUxETAPBgNVBAcTCEJlbGdyYWRlMRAwDgYDVQQK
