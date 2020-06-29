@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                                   xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                   xmlns:tools="http://schemas.android.com/tools"
+                                                   android:layout_width="match_parent"
+                                                   android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" tools:layout_editor_absoluteY="35dp"
+            tools:layout_editor_absoluteX="36dp">
+        <ImageView
+                android:src="@drawable/ic_singidunum_logo"
+                android:layout_width="130dp"
+                android:layout_height="130dp" app:layout_constraintBottom_toTopOf="@+id/student_index_number"
+                app:layout_constraintTop_toTopOf="parent" app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" app:layout_constraintHorizontal_bias="0.498"
+        />
+        <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:ems="10"
+                android:id="@+id/student_index_number"
+                app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" android:layout_marginTop="156dp" android:maxLength="10"
+                android:hint="@string/index_number"/>
+        <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="numberPassword"
+                android:ems="10"
+                android:id="@+id/student_jmbg_number"
+                app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/student_index_number" android:layout_marginTop="24dp"
+                app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintVertical_bias="0.018"
+                android:maxLength="13" android:hint="JMBG"/>
+        <Button
+                android:text="Submit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/student_bill_sendrequest"
+                app:layout_constraintTop_toBottomOf="@+id/student_jmbg_number"
+                app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" app:layout_constraintHorizontal_bias="0.498"
+                app:layout_constraintVertical_bias="0.222"/>
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginStart="44dp" app:layout_constraintTop_toBottomOf="@+id/student_bill_sendrequest"
+                app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintVertical_bias="0.248"
+                android:id="@+id/student_bill_state" android:textSize="18sp"/>
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/student_last_payin"
+                app:layout_constraintTop_toBottomOf="@+id/student_bill_state" android:layout_marginTop="20dp"
+                app:layout_constraintStart_toStartOf="parent" app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginStart="44dp" app:layout_constraintVertical_bias="0.0" android:textSize="18sp"/>
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:id="@+id/student_last_payout"
+                app:layout_constraintTop_toBottomOf="@+id/student_last_payin"
+                android:layout_marginTop="19dp" app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent" android:layout_marginStart="44dp"
+                app:layout_constraintVertical_bias="0.122" android:textSize="18sp"/>
+        <CheckBox
+                android:text="Save info"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:id="@+id/save_info_checkbox"
+                app:layout_constraintBottom_toTopOf="@+id/student_bill_sendrequest"
+                app:layout_constraintTop_toBottomOf="@+id/student_jmbg_number"
+                app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="96dp"
+                app:layout_constraintVertical_bias="0.3"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

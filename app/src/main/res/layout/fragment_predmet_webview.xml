@@ -4,10 +4,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-
-    <WebView
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swiperefresh_predmet"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/predmet_webview"
-    />
+            android:layout_height="match_parent">
+        <WebView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/predmet_webview"
+        />
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </RelativeLayout>

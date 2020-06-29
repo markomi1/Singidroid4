@@ -6,21 +6,21 @@ import androidx.lifecycle.ViewModel;
 import com.google.gson.JsonArray;
 
 public class SharedViewModel extends ViewModel{
-    private MutableLiveData<JsonArray> facultiesArray = new MutableLiveData<>(); //Used for storing faculties JSON
+    private final MutableLiveData<JsonArray> facultiesArray = new MutableLiveData<>(); //Used for storing faculties JSON
 
-    private MutableLiveData<JsonArray> yearsArray = new MutableLiveData<>(); //Used for storing years Array
+    private final MutableLiveData<JsonArray> yearsArray = new MutableLiveData<>(); //Used for storing years Array
 
-    private MutableLiveData<JsonArray> coursesArray = new MutableLiveData<>(); //Stores courses
-    private MutableLiveData<String> selectedFaculty = new MutableLiveData<>(); //Stores selected faculty ID
-    private MutableLiveData<String> selectedYear = new MutableLiveData<>(); //Stores selected year ID
-    private MutableLiveData<String> selectedCourse = new MutableLiveData<>(); //Stores selected Course ID
-    private MutableLiveData<JsonArray> newsFaculties = new MutableLiveData<>(); //Stores list of available news sources
-    private MutableLiveData<String> toolbarColor = new MutableLiveData<>(); //Used to pass color data from NewsFragmentSettingsDialog class to MainActivity
-    private MutableLiveData<String> radioButtonSelected = new MutableLiveData<>(); //Used to pass radioButton tag  data from within NewsFragmentSettingsDialog class
-    private MutableLiveData<String> selectedNewsSource = new MutableLiveData<>(); //Selected news source ID (example "3,4")
-    private MutableLiveData<NewsModel> selectedArticle = new MutableLiveData<>(); //Selected article
-    private MutableLiveData<Boolean> backStatus = new MutableLiveData<>(); //Used by JS interface
-    private MutableLiveData<Boolean> BackStatus2 = new MutableLiveData<>();
+    private final MutableLiveData<JsonArray> coursesArray = new MutableLiveData<>(); //Stores courses
+    private final MutableLiveData<String> selectedFaculty = new MutableLiveData<>(); //Stores selected faculty ID
+    private final MutableLiveData<String> selectedYear = new MutableLiveData<>(); //Stores selected year ID
+    private final MutableLiveData<String> selectedCourse = new MutableLiveData<>(); //Stores selected Course ID
+    private final MutableLiveData<JsonArray> newsFaculties = new MutableLiveData<>(); //Stores list of available news sources
+    private final MutableLiveData<String> toolbarColor = new MutableLiveData<>(); //Used to pass color data from NewsFragmentSettingsDialog class to MainActivity
+    private final MutableLiveData<String> radioButtonSelected = new MutableLiveData<>(); //Used to pass radioButton tag  data from within NewsFragmentSettingsDialog class
+    private final MutableLiveData<String> selectedNewsSource = new MutableLiveData<>(); //Selected news source ID (example "3,4")
+    private final MutableLiveData<NewsModel> selectedArticle = new MutableLiveData<>(); //Selected article
+    private final MutableLiveData<Boolean> backStatus = new MutableLiveData<>(); //Used by JS interface
+    private final MutableLiveData<String> predmetDialog = new MutableLiveData<>();
 
 
     public LiveData<JsonArray> getFacultiesArray() {
@@ -123,11 +123,11 @@ public class SharedViewModel extends ViewModel{
         backStatus.setValue(input);
     }
 
-    public LiveData<Boolean> getBackStatus2() {
-        return BackStatus2;
+    public LiveData<String> getPredmetDialog() {
+        return predmetDialog;
     }
 
-    public void setBackStatus2(Boolean input) {
-        BackStatus2.setValue(input);
+    public void setPredmetDialog(String input) {
+        predmetDialog.setValue(input);
     }
 }

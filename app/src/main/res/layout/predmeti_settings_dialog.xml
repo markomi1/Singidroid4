@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="horizontal"
+>
+    <RelativeLayout android:layout_width="match_parent"
+                    android:layout_height="match_parent" android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp" android:layout_marginTop="50dp">
+
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="100dp"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:id="@+id/text_stuff"
+                android:layout_alignParentStart="true" android:layout_marginStart="0dp">
+            <TextView
+                    android:text="@string/predmet_dialog_faculty"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:id="@+id/predmeti_faculty_string"
+                    android:layout_marginBottom="10dp"
+                    android:textSize="24sp"/>
+            <TextView
+                    android:text="@string/predmet_dialog_year"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:id="@+id/predmeti_year_string"
+                    android:layout_marginBottom="10dp"
+                    android:textSize="24sp"/>
+            <TextView
+                    android:text="@string/predmet_dialog_course"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:id="@+id/predmeti_course_string"
+                    android:layout_marginBottom="10dp"
+                    android:textSize="24sp"/>
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:id="@+id/spinner_stuff"
+                android:layout_toEndOf="@+id/text_stuff">
+
+            <androidx.appcompat.widget.AppCompatSpinner
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_marginBottom="10dp"
+                    android:id="@+id/predmeti_faculty"
+            />
+            <androidx.appcompat.widget.AppCompatSpinner
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_marginBottom="10dp"
+                    android:id="@+id/predmeti_year"
+            />
+            <androidx.appcompat.widget.AppCompatSpinner
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:id="@+id/predmeti_course"
+            />
+
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </RelativeLayout>
+</LinearLayout>

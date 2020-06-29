@@ -26,10 +26,7 @@ import com.google.android.material.tabs.TabLayout;
 import com.google.gson.JsonArray;
 import marko.mitrovic.singidroid4.api.ApiCalls;
 import marko.mitrovic.singidroid4.api.AppNetworking;
-import marko.mitrovic.singidroid4.fragments.AboutFragment;
-import marko.mitrovic.singidroid4.fragments.NewsFragment;
-import marko.mitrovic.singidroid4.fragments.NewsFragmentSettingsDialog;
-import marko.mitrovic.singidroid4.fragments.Predmet;
+import marko.mitrovic.singidroid4.fragments.*;
 import marko.mitrovic.singidroid4.repo.SharedViewModel;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -46,6 +43,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private long mBackPressed;
     private SharedViewModel viewModel; //Shared repo
     private NewsFragmentSettingsDialog newsSettings;
+    private PredmetSettingsDialog predmetSettings;
     private SharedPreferences studentPerfs;
     private ApiCalls api;
     private int currentSelectedItem;
@@ -68,6 +66,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         newsSettings = new NewsFragmentSettingsDialog(); //Setting newsSetting var
+        predmetSettings = new PredmetSettingsDialog();
 
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -108,8 +107,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void onBackPressed() {
 
         if (currentSelectedItem == R.id.nav_stranice_predmeta) {
-            Log.d(TAG, "Back Pressed while Predmet page was active");
-            //
+
+
             FragmentManager fm = getSupportFragmentManager();
 
             Predmet fragment = (Predmet) fm.findFragmentById(R.id.fragment_container);
@@ -131,7 +130,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 return;
             }
             else {
-                Toast.makeText(getBaseContext(), "Tap back button in order to exit", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getBaseContext(), R.string.back_notification, Toast.LENGTH_SHORT).show();
             }
 
             mBackPressed = System.currentTimeMillis();
@@ -152,6 +151,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case R.id.nav_stranice_predmeta:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Predmet()).commit();
+                break;
+            case R.id.nav_student_stanje:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new StudentBillState()).commit();
                 break;
         }
 
@@ -219,20 +221,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void showNewsSourceSettings(View view) {
 
 
-        if (viewModel.getNewsFaculties().getValue() == null) {
-            api = AppNetworking.getClient(this).create(ApiCalls.class);
+        if (viewModel.getNewsFaculties().getValue() == null) { //Will trigger only once, next time it'll load from the var in ELSE
+            api = AppNetworking.getClient(this).create(ApiCalls.class); //Call the API
             api.getNewsSources().enqueue(new Callback<JsonArray>(){
                 @Override
                 public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {
-                    viewModel.setNewsFaculties(response.body());
-                    newsSettings.show(getSupportFragmentManager(), "test");
+                    viewModel.setNewsFaculties(response.body()); //Set the var with the newly received JSON
+                    newsSettings.show(getSupportFragmentManager(), "newsSource");
                 }
 
                 @Override
                 public void onFailure(Call<JsonArray> call, Throwable t) {
                     Log.e("Call_getNewsSources", "Failed, dumping stack trace:");
                     t.printStackTrace();
-                    Toast.makeText(view.getContext(), "Error was encountered while trying to load content", Toast.LENGTH_LONG).show();
+                    Toast.makeText(view.getContext(), R.string.loading_content_error, Toast.LENGTH_LONG).show();
                 }
             });
         } else {
@@ -240,5 +242,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
 
+    }
+
+    public void showPredmetSettings(View view) {
+        predmetSettings.show(getSupportFragmentManager(), "predmetSettings");
     }
 }

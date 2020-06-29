@@ -2,6 +2,8 @@ package marko.mitrovic.singidroid4.repo;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 
 public class NewsModel{
     @SerializedName("post_id")
@@ -17,14 +19,14 @@ public class NewsModel{
     @SerializedName("cover_image_path")
     String cover_image_path;
     @SerializedName("post_images")
-    String post_images;
+    List<String> post_images;
     @SerializedName("plain_text")
     String plain_text;
 
     public NewsModel() {
     }
 
-    public NewsModel(int post_id, String post_title, String post_permalink, String post_description, String post_date, String cover_image_path, String post_images, String plain_text) {
+    public NewsModel(int post_id, String post_title, String post_permalink, String post_description, String post_date, String cover_image_path, List<String> post_images, String plain_text) {
         this.post_id = post_id;
         this.post_title = post_title;
         this.post_permalink = post_permalink;
@@ -83,11 +85,11 @@ public class NewsModel{
         this.cover_image_path = cover_image_path;
     }
 
-    public String getPost_images() {
+    public List<String> getPost_images() {
         return post_images;
     }
 
-    public void setPost_images(String post_images) {
+    public void setPost_images(List<String> post_images) {
         this.post_images = post_images;
     }
 

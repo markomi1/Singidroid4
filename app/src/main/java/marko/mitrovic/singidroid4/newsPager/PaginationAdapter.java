@@ -13,7 +13,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import marko.mitrovic.singidroid4.R;
 import marko.mitrovic.singidroid4.repo.NewsModel;
-import marko.mitrovic.singidroid4.repo.SharedViewModel;
+import marko.mitrovic.singidroid4.util.RecyclerViewClickListener;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -22,8 +22,7 @@ public class PaginationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     private static final int LOADING = 0;
     private static final int ITEM = 1;
     public List<NewsModel> newsList;
-    private SharedViewModel viewModel;
-    private Context context;
+    private final Context context;
     private boolean isLoadingAdded = false;
 
     private RecyclerViewClickListener mListener;
@@ -68,6 +67,7 @@ public class PaginationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                 NewsViewHolder NewsViewHolder = (NewsViewHolder) holder;
                 NewsViewHolder.postTitle.setText(post.getPost_title());
                 NewsViewHolder.postDescription.setText(post.getPost_description());
+
 
                 Glide.with(context).load(post.getCover_image_path()).apply(RequestOptions.centerCropTransform()).into(NewsViewHolder.postImage);
                 break;
@@ -121,8 +121,9 @@ public class PaginationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     }
 
     public class NewsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
-        private TextView postTitle, postDescription;
-        private ImageView postImage;
+        private final TextView postTitle;
+        private final TextView postDescription;
+        private final ImageView postImage;
 
 
         public NewsViewHolder(View itemView, RecyclerViewClickListener listener) {
@@ -130,7 +131,6 @@ public class PaginationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             postTitle = itemView.findViewById(R.id.post_title);
             postDescription = itemView.findViewById(R.id.post_description);
             postImage = itemView.findViewById(R.id.post_image);
-
             mListener = listener;
             itemView.setOnClickListener(this);
 
@@ -140,12 +140,12 @@ public class PaginationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         @Override
         public void onClick(View v) {
             NewsModel newsModel = newsList.get(getAdapterPosition());
-            mListener.onClick(v, newsModel.getPost_title(), newsModel.getPost_date(), newsModel.getCover_image_path(), newsModel.getPlain_text());
+            mListener.onClick(v, newsModel.getPost_title(), newsModel.getPost_date(), newsModel.getCover_image_path(), newsModel.getPlain_text(), newsModel.getPost_images());
         }
     }
 
     public class LoadingViewHolder extends RecyclerView.ViewHolder{
-        private ProgressBar progressBar;
+        private final ProgressBar progressBar;
 
         public LoadingViewHolder(View itemView) {
             super(itemView);

@@ -11,7 +11,9 @@
         />
         <item android:id="@+id/nav_stranice_predmeta"
               android:icon="@drawable/ic_stranica_predmeta"
-              android:title="@string/stranice_predmeta"/>
+              android:title="@string/stranice_predmeta"
+              app:actionLayout="@layout/predmet_settings"
+        />
         <item android:id="@+id/nav_rasporedi_predavanja"
               android:icon="@drawable/ic_class_schedule"
               android:title="@string/raspored_predavanja"/>
