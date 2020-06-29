@@ -49,9 +49,9 @@ public class AppInit extends AppIntro2 {
 
 
         //Setting message manually and performing action on button click
-        builder.setMessage("Do you want to skip App Init ? Clicking yes will resume the app with default settings")
+        builder.setMessage(R.string.appinit_init_skip)
                 .setCancelable(false)
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener(){
                     public void onClick(DialogInterface dialog, int id) {
                         prefs.edit().putBoolean("firstrun", false).apply(); //Set the flag to false so that init is complete.
 
@@ -64,7 +64,7 @@ public class AppInit extends AppIntro2 {
                         overridePendingTransition(R.anim.fadein, R.anim.fadeout);
                     }
                 })
-                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                .setNegativeButton(R.string.no, new DialogInterface.OnClickListener(){
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.cancel(); //Cancels the AlertDialog and let's the user resume AppInit
                     }

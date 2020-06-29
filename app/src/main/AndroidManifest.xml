@@ -34,6 +34,7 @@
         <activity android:name=".AppInit" android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".MainActivity" android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".Article" android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"/>
+        <activity android:name=".ImageSliderActivity" android:theme="@style/Theme.AppCompat.Translucent"/>
 
     </application>
 

@@ -31,7 +31,6 @@ public class NewsFragmentSettingsDialog extends AppCompatDialogFragment {
 
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-        Context context;
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         viewModel = new ViewModelProvider(getActivity()).get(SharedViewModel.class); //get repo
         studentPerfs = getActivity().getSharedPreferences("StudentPrefs", Context.MODE_PRIVATE); //Prepare shared preferences
@@ -63,7 +62,7 @@ public class NewsFragmentSettingsDialog extends AppCompatDialogFragment {
         }
 
 
-        builder.setView(view).setTitle("Change News Source").setPositiveButton("Apply", new DialogInterface.OnClickListener() { //Making of the popup dialog
+        builder.setView(view).setTitle(R.string.change_news_source).setPositiveButton(R.string.apply, new DialogInterface.OnClickListener(){ //Making of the popup dialog
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 if (lin.getCheckedRadioButtonId() != -1) { //Checks to see if any button is selected, which it should be, if it isn't somehow it's skipped
@@ -80,7 +79,7 @@ public class NewsFragmentSettingsDialog extends AppCompatDialogFragment {
                             viewModel.setToolbarColor(color); //We notify the function that's observing this variable to change the color of the toolbar
                             studentPerfs.edit().putString("Color", color).apply(); //We save the color used in the shared preferences
                             studentPerfs.edit().putString("NewsSource", newsSource).apply(); //We also save the News Source in the shared preferences
-                            studentPerfs.edit().putString("Categories", categories).apply();
+                            studentPerfs.edit().putString("Categories", categories).apply(); //We save the category numbers
                             viewModel.setSelectedNewsSource(categories);
 
                             break;
@@ -88,7 +87,7 @@ public class NewsFragmentSettingsDialog extends AppCompatDialogFragment {
                     }
                 }
             }
-        }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+        }).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener(){
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 //Do nothing
@@ -105,12 +104,12 @@ public class NewsFragmentSettingsDialog extends AppCompatDialogFragment {
         if (toSet == null) {
             return;
         }
-        lin = (RadioGroup) view.findViewById(R.id.news_sources_radio_group);//We get the Radio Group so we can get the button access it's members
+        lin = view.findViewById(R.id.news_sources_radio_group);//We get the Radio Group so we can get the button access it's members
         lin.removeAllViews(); // remove old members
         for (int i = 0; i < toSet.size(); i++) {
             JsonObject t = toSet.get(i).getAsJsonObject();
             RadioButton rdbtn = new RadioButton(getActivity()); //Make a radio button
-            String textToSet = (String) t.get("faculty_short").getAsString() + " - " + t.get("faculty_title").getAsString();
+            String textToSet = t.get("faculty_short").getAsString() + " - " + t.get("faculty_title").getAsString();
             // ^ Makes it look like  example: US - Singidunum
             String temp = t.get("faculty_short").getAsString();
             if (temp.equals(previousSelection)) { //Check to see what to check by default.
@@ -129,6 +128,7 @@ public class NewsFragmentSettingsDialog extends AppCompatDialogFragment {
                 @Override
                 public void onClick(View v) {
                     viewModel.setRadioButtonSelected(v.getTag().toString()); //When they're clicked they set their tagID in the repo which is later used above
+                    // on set it also triggers the var observer
                 }
             });
             lin.addView(rdbtn); //We add the radio buttons to the view

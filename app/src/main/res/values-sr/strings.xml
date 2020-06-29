@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Singidroid 4</string>
+    <string name="vesti">Vesti</string>
+    <string name="stranice_predmeta">Stranice Predmeta</string>
+    <string name="raspored_predavanja">Raspored Predavanja</string>
+    <string name="rasporedi_konsultacija">Rasporedi Konsultacija</string>
+    <string name="stanje_studentsko_racuna">Stanje Studentsko Racuna</string>
+    <string name="tekuci_racuni">Tekuci Racuni</string>
+    <string name="lokacija_univerziteta_singidunum">Lokacija Univerziteta Singidunum</string>
+    <string name="kontakt_podaci">Kontakt Podaci</string>
+    <string name="o_aplikaciji">O Aplikaciji</string>
+    <string name="navigation_drawer_open">Otvori Navigacioni Bar</string>
+    <string name="navigation_drawer_close">Zatvori Navigacioni Bar</string>
+    <string name="change_news_source">Promeni Izvor Vesti</string>
+    <string name="apply">Primeni</string>
+    <string name="cancel">Otkaži</string>
+    <string name="refreshing">Osvežavanje</string>
+    <string name="loading_content_error">Greška prilikom učitavanja sadržaja</string>
+    <string name="back_notification">Tapnite 2 puta unazad da izađete</string>
+
+    <string name="appinit_init_skip">Da li želite da preskočite inicijalno podešavanje?
+        settings
+    </string>
+    <string name="yes">Da</string>
+    <string name="no">Ne</string>
+    <string name="predmet_dialog_faculty">Fakultet:</string>
+    <string name="predmet_dialog_year">Godina:</string>
+    <string name="predmet_dialog_course">Smer:</string>
+    <string name="predmet_dialog_neutral">Sačuvaj Trajno</string>
+    <string name="index_number">Broj indeksa</string>
+</resources>

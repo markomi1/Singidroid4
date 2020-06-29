@@ -20,13 +20,29 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="vesti">Vesti</string>
-    <string name="stranice_predmeta">Stranice Predmeta</string>
-    <string name="raspored_predavanja">Raspored Predavanja</string>
-    <string name="rasporedi_konsultacija">Rasporedi Konsultacija</string>
-    <string name="stanje_studentsko_racuna">Stanje Studentsko Racuna</string>
-    <string name="tekuci_racuni">Tekuci Racuni</string>
-    <string name="lokacija_univerziteta_singidunum">Lokacija Univerziteta Singidunum</string>
-    <string name="kontakt_podaci">Kontakt Podaci</string>
-    <string name="o_aplikaciji">O Aplikaciji</string>
+    <string name="vesti">News</string>
+    <string name="stranice_predmeta">Subject Page</string>
+    <string name="raspored_predavanja">Schedule</string>
+    <string name="rasporedi_konsultacija">Consultation Schedule</string>
+    <string name="stanje_studentsko_racuna">Student Bill State</string>
+    <string name="tekuci_racuni">University Bills</string>
+    <string name="lokacija_univerziteta_singidunum">Singidunum Univeristy Location</string>
+    <string name="kontakt_podaci">Contact info</string>
+    <string name="o_aplikaciji">About the app</string>
+    <string name="change_news_source">Change News Source</string>
+    <string name="apply">Apply</string>
+    <string name="cancel">Cancel</string>
+    <string name="refreshing">Refreshing</string>
+    <string name="loading_content_error">Error was encountered while trying to load content</string>
+    <string name="back_notification">Tap back button twice in order to exit</string>
+    <string name="appinit_init_skip">Do you want to skip App Init ?
+        settings
+    </string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="predmet_dialog_faculty">Faculty:</string>
+    <string name="predmet_dialog_year">Year:</string>
+    <string name="predmet_dialog_course">Course:</string>
+    <string name="predmet_dialog_neutral">Save as default</string>
+    <string name="index_number">Index Number</string>
 </resources>

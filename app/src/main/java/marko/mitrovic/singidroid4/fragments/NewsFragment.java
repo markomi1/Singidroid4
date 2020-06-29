@@ -24,13 +24,14 @@ import marko.mitrovic.singidroid4.api.ApiCalls;
 import marko.mitrovic.singidroid4.api.AppNetworking;
 import marko.mitrovic.singidroid4.newsPager.PaginationAdapter;
 import marko.mitrovic.singidroid4.newsPager.PaginationScrollListener;
-import marko.mitrovic.singidroid4.newsPager.RecyclerViewClickListener;
 import marko.mitrovic.singidroid4.repo.NewsModel;
 import marko.mitrovic.singidroid4.repo.SharedViewModel;
+import marko.mitrovic.singidroid4.util.RecyclerViewClickListener;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class NewsFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener{
@@ -41,7 +42,7 @@ public class NewsFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     private ApiCalls api;
     private boolean isLoading = false;
     private boolean isLastPage = false;
-    private int TOTAL_PAGES = 50;
+    private final int TOTAL_PAGES = 50;
     private int currentPage = PAGE_START;
     private SharedPreferences studentPerfs;
     private SharedViewModel viewModel;
@@ -60,13 +61,14 @@ public class NewsFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         api = AppNetworking.getClient(getContext()).create(ApiCalls.class);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
 
-        RecyclerViewClickListener listener = (view, title, date, imageUrl, content) -> {
-
+        RecyclerViewClickListener listener = (view, title, date, imageUrl, content, imageList) -> {
             Intent intent = new Intent(getActivity(), Article.class);
             intent.putExtra("title", title);
             intent.putExtra("date", date);
             intent.putExtra("imageurl", imageUrl);
             intent.putExtra("content", content);
+            intent.putExtra("imageList", (ArrayList<String>) imageList);
+
             startActivity(intent);
         };
 
@@ -124,7 +126,7 @@ public class NewsFragment extends Fragment implements SwipeRefreshLayout.OnRefre
             public void onFailure(Call<List<NewsModel>> call, Throwable t) {
                 Log.e("Call_getNews", "Failed, dumping stack trace:");
                 t.printStackTrace();
-                Toast.makeText(view.getContext(), "Error was encountered while trying to load content", Toast.LENGTH_LONG).show();
+                Toast.makeText(view.getContext(), R.string.loading_content_error, Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -137,7 +139,7 @@ public class NewsFragment extends Fragment implements SwipeRefreshLayout.OnRefre
                 List<NewsModel> results = response.body();
                 //Log.d("NewsFragment", results.toString());
                 if (results == null) {
-                    Toast.makeText(view.getContext(), "Error was encountered while trying to load content", Toast.LENGTH_LONG).show();
+                    Toast.makeText(view.getContext(), R.string.loading_content_error, Toast.LENGTH_LONG).show();
                     return;
                 }
                 if (refreshing) {
@@ -158,7 +160,7 @@ public class NewsFragment extends Fragment implements SwipeRefreshLayout.OnRefre
             public void onFailure(Call<List<NewsModel>> call, Throwable t) {
                 Log.e("Call_getNews_0_Page", "Failed, dumping stack trace:");
                 t.printStackTrace();
-                Toast.makeText(view.getContext(), "Error was encountered while trying to load content", Toast.LENGTH_LONG).show();
+                Toast.makeText(view.getContext(), R.string.loading_content_error, Toast.LENGTH_LONG).show();
             }
 
         });
@@ -190,7 +192,7 @@ public class NewsFragment extends Fragment implements SwipeRefreshLayout.OnRefre
 
         paginationAdapter.notifyDataSetChanged(); //We notify it here again just in case
 
-        Toast.makeText(view.getContext(), "Refreshing", Toast.LENGTH_LONG).show(); //Shows toast
+        Toast.makeText(view.getContext(), R.string.refreshing, Toast.LENGTH_LONG).show(); //Shows toast
 
 
     }
