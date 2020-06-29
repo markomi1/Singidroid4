@@ -86,11 +86,13 @@ public class StudentBillState extends Fragment{
             @Override
             public void onResponse(Call<List<String>> call, Response<List<String>> response) {
                 Log.d("Response", response.body().toString());
-                billState.setText(response.body().get(0));
-                billPayin.setText(response.body().get(1));
-                billPayout.setText(response.body().get(2));
-
-
+                if (response.body().size() == 3) {
+                    billState.setText(response.body().get(0));
+                    billPayin.setText(response.body().get(1));
+                    billPayout.setText(response.body().get(2));
+                } else {
+                    billState.setText(response.body().get(0));
+                }
             }
 
             @Override
