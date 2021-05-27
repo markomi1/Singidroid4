@@ -50,7 +50,7 @@ public class LocationFragment extends Fragment implements OnMapReadyCallback,
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragmetn_university_location, container, false);
+        view = inflater.inflate(R.layout.fragment_university_location, container, false);
 
         mapView = view.findViewById(R.id.mapView);
         mapView.onCreate(savedInstanceState);
@@ -135,8 +135,6 @@ public class LocationFragment extends Fragment implements OnMapReadyCallback,
                 break;
 
         }
-
-        //googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(44.784419, 20.476921), 17));
     }
 
     @Override
