@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
+    <data-source source="LOCAL" name="Android SQLite" uuid="a709dae9-5f29-45f3-93b6-8d64a35aaa05">
+      <driver-ref>sqlite.xerial</driver-ref>
+      <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
+      <jdbc-url>jdbc:sqlite:C:\Users\62756\AppData\Local\JetBrains\IntelliJIdea2020.1\android\databases\SERIAL_NUMBER_ce061606a50f381f03\com.sec.android.app.clockpackage\internal\alarm.db</jdbc-url>
+    </data-source>
+  </component>
+</project>

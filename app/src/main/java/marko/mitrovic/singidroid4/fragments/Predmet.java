@@ -22,6 +22,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import marko.mitrovic.singidroid4.R;
+import marko.mitrovic.singidroid4.api.AppNetworking;
 import marko.mitrovic.singidroid4.repo.SharedViewModel;
 import marko.mitrovic.singidroid4.util.JSIntefrace;
 
@@ -50,12 +51,11 @@ public class Predmet extends Fragment implements SwipeRefreshLayout.OnRefreshLis
     private View view;
     private SharedPreferences studentPerfs;
     //NOTE Global IP used only for webview
-    private final String GLOBAL_IP = "192.168.4.110:8080"; //135.181.26.76:8080
+    private final String GLOBAL_IP = AppNetworking.BASE_URL;
     private final String TAG = "PredmetClass";
     public Boolean backStatus = true;
     public int modalNumber = 0;
     private SharedViewModel viewModel;
-    private final String test = "aaaaa";
     SwipeRefreshLayout swipeLayout;
     private PredmetSettingsDialog predmetSettings;
     private String courseId = "";
@@ -196,7 +196,7 @@ public class Predmet extends Fragment implements SwipeRefreshLayout.OnRefreshLis
             }
         });
         viewModel = new ViewModelProvider(getActivity()).get(SharedViewModel.class);
-        mWebView.loadUrl("https://" + GLOBAL_IP + "/predmeti/" + courseId);
+        mWebView.loadUrl(GLOBAL_IP + "/predmeti/" + courseId);
         WebSettings webSettings = mWebView.getSettings();
         webSettings.setJavaScriptEnabled(true);
         webSettings.setCacheMode(WebSettings.LOAD_DEFAULT);

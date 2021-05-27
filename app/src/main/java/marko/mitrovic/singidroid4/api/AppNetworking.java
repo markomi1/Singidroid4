@@ -24,7 +24,7 @@ public class AppNetworking{
 
 
     public static Retrofit retrofit = null;
-    private static final String BASE_URL = "https://192.168.4.110:8080"; //https://135.181.26.76:8080
+    public static final String BASE_URL = "https://192.168.4.110:8080"; //https://192.168.4.110:8080
 
 
     public static SSLContext getSSLConfig(Context context) throws CertificateException, IOException,

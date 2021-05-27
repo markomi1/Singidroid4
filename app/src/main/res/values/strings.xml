@@ -45,4 +45,13 @@
     <string name="predmet_dialog_course">Course:</string>
     <string name="predmet_dialog_neutral">Save as default</string>
     <string name="index_number">Index Number</string>
+
+    <string-array name="uni_locations">
+        <item>Univerzitet Singidunum Danijelova</item>
+        <item>Univerzitet Singidunum Kumodraska</item>
+        <item>Centar Novi Sad</item>
+        <item>Centar Nis</item>
+        <item>Centar Zlatibor</item>
+    </string-array>
+
 </resources>

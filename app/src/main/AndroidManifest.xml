@@ -36,6 +36,10 @@
         <activity android:name=".Article" android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"/>
         <activity android:name=".ImageSliderActivity" android:theme="@style/Theme.AppCompat.Translucent"/>
 
+        <meta-data
+                android:name="com.google.android.geo.API_KEY"
+                android:value="${MAPS_API_KEY}"/>
+
     </application>
 
 </manifest>
