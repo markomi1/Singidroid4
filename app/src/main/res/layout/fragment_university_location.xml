@@ -18,7 +18,6 @@
                 app:layout_constraintTop_toBottomOf="@+id/textView" app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
-                android:apiKey="AIzaSyC7eUrFd14gbxXjRYmJgZKo0e3vHKfc3VY"
                 app:layout_constraintBottom_toBottomOf="parent"/>
 
     </androidx.appcompat.widget.LinearLayoutCompat>

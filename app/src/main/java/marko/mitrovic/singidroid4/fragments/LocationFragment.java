@@ -117,21 +117,22 @@ public class LocationFragment extends Fragment implements OnMapReadyCallback,
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         Log.d(TAG, "onItemSelected: " + uniLocationSpinner.getSelectedItem().toString());
         String selectedLocation = uniLocationSpinner.getSelectedItem().toString();
+        final int zoomLevel = 16;
         switch (selectedLocation) {
             case "Univerzitet Singidunum Danijelova":
-                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(beogradDan, 17));
+                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(beogradDan, zoomLevel));
                 break;
             case "Univerzitet Singidunum Kumodraska":
-                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(beogradKum, 17));
+                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(beogradKum, zoomLevel));
                 break;
             case "Centar Novi Sad":
-                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(noviSad, 17));
+                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(noviSad, zoomLevel));
                 break;
             case "Centar Nis": //Nikole Pasica
-                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(nis, 17));
+                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(nis, zoomLevel));
                 break;
             case "Centar Zlatibor": //Zlatibor Centar
-                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(zlatibor, 17));
+                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(zlatibor, zoomLevel));
                 break;
 
         }
