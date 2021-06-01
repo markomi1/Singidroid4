@@ -56,7 +56,7 @@ public class NewsFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         view = inflater.inflate(R.layout.fragment_news, container, false);
 
         viewModel = new ViewModelProvider(getActivity()).get(SharedViewModel.class); //get repo
-        RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
+        RecyclerView recyclerView = view.findViewById(R.id.news_recycler_view);
         studentPerfs = this.getActivity().getSharedPreferences("StudentPrefs", Context.MODE_PRIVATE);
         api = AppNetworking.getClient(getContext()).create(ApiCalls.class);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
