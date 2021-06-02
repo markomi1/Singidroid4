@@ -8,12 +8,15 @@
     <ScrollView
             android:id="@+id/contactListing"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+
+    >
         <androidx.appcompat.widget.LinearLayoutCompat
                 android:id="@+id/contactFragment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
+                android:paddingBottom="20dp"
         /> <!-- Orientation is very important here, otherwise it clips out (default to horizontal)-->
 
     </ScrollView>

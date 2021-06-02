@@ -45,6 +45,8 @@
     <string name="predmet_dialog_course">Course:</string>
     <string name="predmet_dialog_neutral">Save as default</string>
     <string name="index_number">Index Number</string>
+    <string name="email_subject" translatable="false"/>
+    <string name="email" translatable="false"/>
 
     <string-array name="uni_locations">
         <item>Univerzitet Singidunum Danijelova</item>
