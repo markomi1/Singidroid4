@@ -12,6 +12,7 @@
             android:roundIcon="@drawable/ic_singidunum_logo"
             android:supportsRtl="true"
             android:theme="@style/AppTheme"
+            android:extractNativeLibs="true"
             tools:ignore="GoogleAppIndexingWarning"
             android:usesCleartextTraffic="true"
     >

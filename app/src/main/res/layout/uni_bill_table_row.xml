@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<TableRow xmlns:android="http://schemas.android.com/apk/res/android"
+          android:layout_height="wrap_content"
+          android:layout_width="wrap_content"
+          android:foreground="?selectableItemBackgroundBorderless"
+          android:layout_marginTop="2dp"
+          android:clickable="true"
+>
+    <TextView
+            android:text="Top left"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:background="#FFFFFF"
+
+            android:layout_height="match_parent"
+            android:id="@+id/faculty_name"
+            android:paddingLeft="1dp"
+            android:layout_margin="0.3dp"
+            android:padding="3dip"/>
+    <TextView
+            android:text="Top right"
+            android:gravity="center"
+            android:background="#FFFFFF"
+            android:layout_height="match_parent"
+            android:layout_marginRight="6dp"
+            android:id="@+id/bank_number"
+            android:layout_margin="0.3dp"
+            android:padding="3dp"/>
+
+</TableRow>
+
