@@ -28,7 +28,7 @@
         <EditText
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:inputType="numberPassword"
+                android:inputType="number"
                 android:ems="10"
                 android:id="@+id/student_jmbg_number"
                 app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent"

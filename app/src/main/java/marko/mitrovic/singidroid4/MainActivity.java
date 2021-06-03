@@ -219,6 +219,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             if (!darkMode) {
                 toolbar.setBackgroundColor(color);
             }
+
+            NavigationView linearLayout = window.findViewById(R.id.nav_view);
+            linearLayout.getHeaderView(0).setBackgroundColor(color);
             window.setStatusBarColor(darkerColor);
 
         }

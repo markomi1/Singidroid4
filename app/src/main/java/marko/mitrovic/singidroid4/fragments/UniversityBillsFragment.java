@@ -47,8 +47,7 @@ public class UniversityBillsFragment extends Fragment{
         addToTable("Master i doktorske studije", "160-360186-98");
         addToTable("Strane studije", "265-1780310001125-64");
         addToTable("Krems", "265-1780310001128-55");
-        addToTable("Prijava ispita i uverenja", "265-1780310001130-49");
-        addToTable("Diplomski radovi, izrada diplome, upisni materijal, osiguranje", "265-1780310001130-49");
+        addToTable("Prijava ispita i uverenja, Diplomski radovi, izrada diplome, upisni materijal, osiguranje", "265-1780310001130-49");
 
         TextView text1 = view.findViewById(R.id.text1);
 
