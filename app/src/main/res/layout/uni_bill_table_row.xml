@@ -12,12 +12,12 @@
             android:gravity="center"
             android:layout_weight="1"
             android:background="#FFFFFF"
-
+            android:textColor="@color/black"
             android:layout_height="match_parent"
             android:id="@+id/faculty_name"
             android:paddingLeft="1dp"
             android:layout_margin="0.3dp"
-            android:padding="3dip"/>
+            android:padding="3dip" android:textStyle="bold"/>
     <TextView
             android:text="Top right"
             android:gravity="center"

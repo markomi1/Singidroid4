@@ -4,6 +4,7 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,6 +37,7 @@ public class UniversityBillsFragment extends Fragment{
 
         mTableViewGroup = view.findViewById(R.id.billTable);
 
+        //This should be pulling data from the API, but eh...
         addToTable("PFB - Poslovna ekonomija", "160-360190-86");
         addToTable("PFB - Anglistika", "160-360180-19");
         addToTable("FTHM - Fakultet za turistički i hotelijerski menadžement", "160-342460-23");
@@ -45,6 +47,13 @@ public class UniversityBillsFragment extends Fragment{
         addToTable("Master i doktorske studije", "160-360186-98");
         addToTable("Strane studije", "265-1780310001125-64");
         addToTable("Krems", "265-1780310001128-55");
+        addToTable("Prijava ispita i uverenja", "265-1780310001130-49");
+        addToTable("Diplomski radovi, izrada diplome, upisni materijal, osiguranje", "265-1780310001130-49");
+
+        TextView text1 = view.findViewById(R.id.text1);
+
+        text1.setText(Html.fromHtml("<b> Molimo Vas da na sve uplate ka Univerzitetu u poziv na broj unosite Vaš broj indeksa u formi godina\n" +
+                "upisa zatim broj indeksa, bez razmaka i znakova interpunkcije npr. 2017200079 . </b>"));
 
         return view;
     }
@@ -66,6 +75,7 @@ public class UniversityBillsFragment extends Fragment{
             return true;
         });
         table_faculty_name.setText(facultyName);
+
         table_bank_number.setText(bankAccountNumber);
 
         mTableViewGroup.addView(tableView);
