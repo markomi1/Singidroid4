@@ -1,13 +1,16 @@
 package marko.mitrovic.singidroid4;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ShareCompat;
 import androidx.core.view.GestureDetectorCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -26,12 +29,14 @@ public class Article extends AppCompatActivity{
 
     private SharedViewModel viewModel;
     private TextView title, date, postContent;
-    private ImageView postImage, articleImageRecycleView;
+    final static String TAG = "Article Activity";
     private ImageListAdapter imageListAdapter;
     private GestureDetectorCompat mDetector;
     private RecyclerView recyclerView;
+    private ImageView postImage, articleImageRecycleView, shareIconImage, openBrowserIconImage;
+    private String browserUrl = "https://singidunum.ac.rs";
 
-
+    //NOTE Add open in browser button!
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,31 +51,42 @@ public class Article extends AppCompatActivity{
         postImage = findViewById(R.id.postImage);
         postContent = findViewById(R.id.postContent);
         recyclerView = findViewById(R.id.horizontal_image_recycle_view);
+
+        shareIconImage = findViewById(R.id.article_share);
+        openBrowserIconImage = findViewById(R.id.article_open_web);
+
+        shareIconImage.setOnClickListener(v -> {
+            Toast.makeText(this, "Sharing", Toast.LENGTH_SHORT).show();
+            ShareCompat.IntentBuilder.from(this)
+                    .setType("text/plain")
+                    .setText(browserUrl)
+                    .startChooser();
+        });
+
+        //Open the post URL in the browser
+        openBrowserIconImage.setOnClickListener(v -> {
+            Toast.makeText(this, "Opening in browser", Toast.LENGTH_SHORT).show();
+            Intent i = new Intent(Intent.ACTION_VIEW);
+            i.setData(Uri.parse(browserUrl));
+            startActivity(i);
+        });
+
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
 
         ArticleImageViewClickListener listener = (view, imageList, position) -> {
 
-            Log.d("Bbb", "Clicked on: " + imageList.get(position) + " Position: " + position);
+            Log.d(TAG, "Clicked on: " + imageList.get(position) + " Position: " + position);
             Intent intent = new Intent(this, ImageSliderActivity.class);
             intent.putExtra("imageUrl", imageList.get(position));
             startActivity(intent);
             overridePendingTransition(R.anim.fadein, R.anim.fadeout);
-
-
         };
 
 
         imageListAdapter = new ImageListAdapter(this, listener);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(imageListAdapter);
-
-
-        //articleImageRecycleView = findViewById(R.id.article_images);
-
-
     }
-
-
 
     @Override
     protected void onResume() {
@@ -80,6 +96,9 @@ public class Article extends AppCompatActivity{
         date.setText(intent.getStringExtra("date"));
         String url = intent.getStringExtra("imageurl");
         List<String> imageList = intent.getStringArrayListExtra("imageList");
+
+        browserUrl = intent.getStringExtra("permalink");
+
 
         Glide.with(this).load(url).apply(RequestOptions.centerCropTransform()).fitCenter().into(postImage);
         postContent.setText(intent.getStringExtra("content"));

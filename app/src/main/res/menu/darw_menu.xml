@@ -14,12 +14,6 @@
               android:title="@string/stranice_predmeta"
               app:actionLayout="@layout/predmet_settings"
         />
-        <item android:id="@+id/nav_rasporedi_predavanja"
-              android:icon="@drawable/ic_class_schedule"
-              android:title="@string/raspored_predavanja"/>
-        <item android:id="@+id/nav_rasporedi_konsultacija"
-              android:icon="@drawable/ic_consultation"
-              android:title="@string/rasporedi_konsultacija"/>
         <item android:id="@+id/nav_student_stanje"
               android:icon="@drawable/ic_wallet"
               android:title="@string/stanje_studentsko_racuna"/>

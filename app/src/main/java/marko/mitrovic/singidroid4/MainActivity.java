@@ -220,8 +220,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 toolbar.setBackgroundColor(color);
             }
 
-            NavigationView linearLayout = window.findViewById(R.id.nav_view);
-            linearLayout.getHeaderView(0).setBackgroundColor(color);
+            NavigationView navView = window.findViewById(R.id.nav_view);//Getting the nav_view
+            navView.getHeaderView(0).setBackgroundColor(color); //Getting the header and changing it's color
             window.setStatusBarColor(darkerColor);
 
         }

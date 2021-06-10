@@ -1,6 +1,7 @@
 package marko.mitrovic.singidroid4.newsPager;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -68,8 +69,13 @@ public class PaginationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                 NewsViewHolder.postTitle.setText(post.getPost_title());
                 NewsViewHolder.postDescription.setText(post.getPost_description());
 
+                try {
 
-                Glide.with(context).load(post.getCover_image_path()).apply(RequestOptions.centerCropTransform()).into(NewsViewHolder.postImage);
+                    Glide.with(context).load(post.getCover_image_path()).apply(RequestOptions.centerCropTransform()).into(NewsViewHolder.postImage);
+
+                } catch (Exception e) {
+                    Log.d("Glide Error", "Glide complaining");
+                }
                 break;
             case LOADING:
                 LoadingViewHolder loadingViewHolder = (LoadingViewHolder) holder;
@@ -140,7 +146,7 @@ public class PaginationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         @Override
         public void onClick(View v) {
             NewsModel newsModel = newsList.get(getAdapterPosition());
-            mListener.onClick(v, newsModel.getPost_title(), newsModel.getPost_date(), newsModel.getCover_image_path(), newsModel.getPlain_text(), newsModel.getPost_images());
+            mListener.onClick(v, newsModel.getPost_title(), newsModel.getPost_permalink(), newsModel.getPost_date(), newsModel.getCover_image_path(), newsModel.getPlain_text(), newsModel.getPost_images());
         }
     }
 

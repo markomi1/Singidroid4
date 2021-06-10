@@ -36,10 +36,7 @@ public class PredmetSettingsDialog extends AppCompatDialogFragment{
     private Spinner facultyView, yearView, courseView;
     private SharedPreferences studentPerfs;
     private Gson gson;
-    private Predmet predmet;
     private String preselectedFaculty, preselectedYear, preselectedCourse;
-
-    //TODO MAKE IT SELECT YOUR FACULTY/YEAR/COURSE IF YOU ALREADY HAVE IT CONFIGURED, IF NOT SHOW DEFAULT ONES
 
     @NonNull
     @Override
@@ -69,7 +66,7 @@ public class PredmetSettingsDialog extends AppCompatDialogFragment{
 
             @Override
             public void onFailure(Call<JsonArray> call, Throwable t) {
-                Log.e("Call_getFaculties_Predmeti", "Failed, dumping stack trace:");
+                Log.e("getFaculties_Predmeti", "Failed, dumping stack trace:");
                 t.printStackTrace();
             }
         });

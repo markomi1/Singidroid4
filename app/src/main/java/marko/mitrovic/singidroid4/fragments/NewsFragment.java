@@ -61,14 +61,14 @@ public class NewsFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         api = AppNetworking.getClient(getContext()).create(ApiCalls.class);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
 
-        RecyclerViewClickListener listener = (view, title, date, imageUrl, content, imageList) -> {
+        RecyclerViewClickListener listener = (view, title, permalink, date, imageUrl, content, imageList) -> {
             Intent intent = new Intent(getActivity(), Article.class);
             intent.putExtra("title", title);
+            intent.putExtra("permalink", permalink);
             intent.putExtra("date", date);
             intent.putExtra("imageurl", imageUrl);
             intent.putExtra("content", content);
             intent.putExtra("imageList", (ArrayList<String>) imageList);
-
             startActivity(intent);
         };
 

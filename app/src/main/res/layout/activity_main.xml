@@ -34,7 +34,7 @@
 
                     android:layout_centerHorizontal="true"
 
-                    android:src="@drawable/ic_univerzitet_singidunum_srb"/>
+                    android:src="@drawable/ic_univerzitet_singidunum_srb_white"/>
 
 
         </androidx.appcompat.widget.Toolbar>

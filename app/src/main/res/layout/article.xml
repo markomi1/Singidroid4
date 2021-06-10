@@ -29,6 +29,26 @@
                     app:layout_constraintTop_toBottomOf="@+id/postTitle" android:layout_marginTop="8dp"
                     app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="16dp"
                     android:text="1970-01-1 00:00:00"/>
+            <ImageView
+                    android:src="@drawable/ic_web"
+                    android:id="@+id/article_open_web"
+                    android:foreground="?selectableItemBackgroundBorderless"
+                    android:clickable="true"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    app:layout_constraintStart_toEndOf="@+id/post_date"
+                    app:layout_constraintBottom_toTopOf="@+id/divider" android:layout_marginStart="206dp"
+                    android:layout_marginBottom="8dp"
+                    app:layout_constraintEnd_toEndOf="parent" app:layout_constraintHorizontal_bias="0.567"/>
+            <ImageView
+                    android:src="@drawable/ic_share"
+                    android:id="@+id/article_share"
+                    android:foreground="?selectableItemBackgroundBorderless"
+                    android:clickable="true"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp" app:layout_constraintBottom_toTopOf="@+id/divider"
+                    app:layout_constraintStart_toEndOf="@+id/post_date" android:layout_marginStart="184dp"
+                    android:layout_marginBottom="8dp"/>
             <View
                     android:id="@+id/divider"
                     android:layout_width="match_parent"

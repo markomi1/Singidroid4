@@ -17,7 +17,6 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import marko.mitrovic.singidroid4.R;
@@ -96,8 +95,8 @@ public class LocationFragment extends Fragment implements OnMapReadyCallback,
                 .position(zlatibor)
                 .title("Centar Zlatibor"));
         googleMap.setOnMarkerClickListener(this);
-        googleMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(
-                this.getContext(), R.raw.style_json));
+//        googleMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(
+//                this.getContext(), R.raw.style_json));
         //map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(44.78224991433838, 20.479034350409012), 17));
 
     }
