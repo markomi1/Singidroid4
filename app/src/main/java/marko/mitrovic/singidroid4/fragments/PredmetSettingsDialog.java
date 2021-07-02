@@ -89,12 +89,12 @@ public class PredmetSettingsDialog extends AppCompatDialogFragment{
 
 
         //Making of the popup dialog
-        builder.setView(view).setTitle("Change Predmet Source").setPositiveButton(R.string.apply, (dialog, which) -> {
+        builder.setView(view).setTitle(R.string.subject_change_title).setPositiveButton(R.string.apply, (dialog, which) -> {
             if (!selectedCourse.equals("")) { //Sanity check, just in case somehow it's ""
                 viewModel.setPredmetDialog(selectedCourse); //If it's not "" then we set the viewModal var while will notify an observer located in Predmet.java
                 dialog.dismiss(); //Dismissing the dialog
             } else {
-                Toast.makeText(getActivity(), "Some of the field seem to be empty somehow?", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), R.string.empty_fields_somehow, Toast.LENGTH_SHORT).show();
             }
 
         }).setNegativeButton(R.string.cancel, (dialog, which) -> {
@@ -108,7 +108,7 @@ public class PredmetSettingsDialog extends AppCompatDialogFragment{
                 viewModel.setPredmetDialog(selectedCourse); //Notifying the observer in Predmet.java that's watching for changes in this var
                 dialog.dismiss(); //Dialog dismissing
             } else {
-                Toast.makeText(getActivity(), "Some of the field seem to be empty somehow?", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), R.string.empty_fields_somehow, Toast.LENGTH_SHORT).show();
             }
 
         });

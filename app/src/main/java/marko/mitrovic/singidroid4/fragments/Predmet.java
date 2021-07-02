@@ -4,8 +4,10 @@ package marko.mitrovic.singidroid4.fragments;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.net.Uri;
 import android.net.http.SslCertificate;
 import android.net.http.SslError;
 import android.os.Bundle;
@@ -43,6 +45,7 @@ import java.security.cert.X509Certificate;
 import java.util.Objects;
 
 
+
 /**
  * A simple {@link Fragment} subclass.
  */
@@ -60,6 +63,7 @@ public class Predmet extends Fragment implements SwipeRefreshLayout.OnRefreshLis
     private PredmetSettingsDialog predmetSettings;
     private String courseId = "";
 
+
     public Predmet() {
         // Required empty public constructor
     }
@@ -74,6 +78,7 @@ public class Predmet extends Fragment implements SwipeRefreshLayout.OnRefreshLis
         viewModel = new ViewModelProvider(getActivity()).get(SharedViewModel.class); //get repo
         boolean skipped = studentPerfs.getBoolean("SkippedInit", true);
         view = inflater.inflate(R.layout.fragment_predmet_webview, container, false);
+
         if (!skipped) {
 
             courseId = studentPerfs.getString("CourseChoice", "120");
@@ -162,29 +167,29 @@ public class Predmet extends Fragment implements SwipeRefreshLayout.OnRefreshLis
                     String message = "SSL Certificate error.";
                     switch (error.getPrimaryError()) {
                         case SslError.SSL_UNTRUSTED:
-                            message = "Sertifikat nije bezbedan.";
+                            message = getString(R.string.cert_not_trusted);
                             break;
                         case SslError.SSL_EXPIRED:
-                            message = "Sertifikat je istekao.";
+                            message = getString(R.string.cert_expired);
                             break;
                         case SslError.SSL_IDMISMATCH:
-                            message = "ID Sertifikata  se ne poklapa.";
+                            message = getString(R.string.cert_id_missmatch);
                             break;
                         case SslError.SSL_NOTYETVALID:
-                            message = "Sertifikat jos nije validan.";
+                            message = getString(R.string.cert_not_yet_valid);
                             break;
                     }
-                    message += " Da li želite da nastavite?";
+                    message += getString(R.string.do_you_continue);
 
-                    builder.setTitle("SSL Sertifikat greška");
+                    builder.setTitle(R.string.cert_error_title);
                     builder.setMessage(message);
-                    builder.setPositiveButton("nastavi", new DialogInterface.OnClickListener(){
+                    builder.setPositiveButton(R.string.continue_prompt, new DialogInterface.OnClickListener(){
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             handler.proceed();
                         }
                     });
-                    builder.setNegativeButton("odustani", new DialogInterface.OnClickListener(){
+                    builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener(){
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             handler.cancel();
@@ -201,10 +206,12 @@ public class Predmet extends Fragment implements SwipeRefreshLayout.OnRefreshLis
         webSettings.setJavaScriptEnabled(true);
         webSettings.setCacheMode(WebSettings.LOAD_DEFAULT);
         webSettings.setDomStorageEnabled(true);
+
         mWebView.addJavascriptInterface(new JSIntefrace(){ //JS Interface
             @Override
             @JavascriptInterface
             public void backPressed(boolean echo) {
+                Log.d(TAG, "backPressed: ");
                 backStatus = echo;
             }
 
@@ -212,6 +219,14 @@ public class Predmet extends Fragment implements SwipeRefreshLayout.OnRefreshLis
             @JavascriptInterface
             public void modalNumber(int number) {
                 modalNumber = number;
+            }
+
+            @Override
+            @JavascriptInterface
+            public void downloadFile(String fileName, String url) {
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse(url));
+                startActivity(i);
             }
         }, "JSInterface");
     }

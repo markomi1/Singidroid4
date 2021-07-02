@@ -6,4 +6,5 @@ public interface JSIntefrace{
 
     void modalNumber(int number);
 
+    void downloadFile(String filename, String url);
 }

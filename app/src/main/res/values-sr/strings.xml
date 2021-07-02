@@ -3,8 +3,6 @@
     <string name="app_name">Singidroid 4</string>
     <string name="vesti">Vesti</string>
     <string name="stranice_predmeta">Stranice Predmeta</string>
-    <string name="raspored_predavanja">Raspored Predavanja</string>
-    <string name="rasporedi_konsultacija">Rasporedi Konsultacija</string>
     <string name="stanje_studentsko_racuna">Stanje Studentsko Racuna</string>
     <string name="tekuci_racuni">Tekuci Racuni</string>
     <string name="lokacija_univerziteta_singidunum">Lokacija Univerziteta Singidunum</string>
@@ -19,9 +17,7 @@
     <string name="loading_content_error">Greška prilikom učitavanja sadržaja</string>
     <string name="back_notification">Tapnite 2 puta unazad da izađete</string>
 
-    <string name="appinit_init_skip">Da li želite da preskočite inicijalno podešavanje?
-        settings
-    </string>
+    <string name="appinit_init_skip">Da li želite da preskočite inicijalno podešavanje?</string>
     <string name="yes">Da</string>
     <string name="no">Ne</string>
     <string name="predmet_dialog_faculty">Fakultet:</string>
@@ -29,4 +25,20 @@
     <string name="predmet_dialog_course">Smer:</string>
     <string name="predmet_dialog_neutral">Sačuvaj Trajno</string>
     <string name="index_number">Broj indeksa</string>
+    <string name="jmbg_less_than_13">JMBG je manje od 13 cifara</string>
+    <string name="index_less_than_10">Indeks polje je manje of 10 cifara</string>
+    <string name="jmbg_field_empty">JMBG polje je prazno</string>
+    <string name="empty_fields_somehow">Neka od polja su nekako prazna ?</string>
+    <string name="do_you_continue">\" Da li želite da nastavite?\"</string>
+    <string name="cert_not_yet_valid">Sertifikat jos nije validan.</string>
+    <string name="cert_id_missmatch">ID Sertifikata se ne poklapa.</string>
+    <string name="cert_expired">Sertifikat je istekao.</string>
+    <string name="cert_not_trusted">Sertifikat nije bezbedan.</string>
+    <string name="cert_error_title">SSL Sertifikat greška</string>
+    <string name="continue_prompt">Nastavi</string>
+    <string name="index_field_empty">Indeks polje je prazno</string>
+    <string name="appinit_confirm_done_text">Da li ste sigurni da želite da sačuvate ove promene ?</string>
+    <string name="appinit_title">Gotovo?</string>
+    <string name="appinit_skip">Preskoči?</string>
+    <string name="subject_change_title">Promeni smer</string>
 </resources>

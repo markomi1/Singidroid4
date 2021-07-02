@@ -54,16 +54,16 @@ public class StudentBillState extends Fragment{
                 String indexText = index.getText().toString();
                 String jmbgText = jmbg.getText().toString();
                 if (indexText.isEmpty()) {
-                    Toast.makeText(getActivity(), "Index field is empty", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), R.string.index_field_empty, Toast.LENGTH_SHORT).show();
                     return;
                 } else if (jmbgText.isEmpty()) {
-                    Toast.makeText(getActivity(), "JMBG field is empty", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), R.string.jmbg_field_empty, Toast.LENGTH_SHORT).show();
                     return;
                 } else if (indexText.length() < 10) {
-                    Toast.makeText(getActivity(), "Index field is less than 10", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), R.string.index_less_than_10, Toast.LENGTH_SHORT).show();
                     return;
                 } else if (jmbgText.length() < 13) {
-                    Toast.makeText(getActivity(), "JMBG field is less than 13", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), R.string.jmbg_less_than_13, Toast.LENGTH_SHORT).show();
                     return;
                 }
                 checkStudentBalance(indexText, jmbgText);

@@ -24,12 +24,6 @@
         <!-- <item name="colorPrimaryDark">@android:color/white</item> -->
     </style>
 
-    <style name="MyProgressBar" parent="@style/Widget.AppCompat.ProgressBar">
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-
-    </style>
-
 
     <style name="DialogAnimation">
         <item name="android:windowEnterAnimation">@anim/dialogfadein</item>

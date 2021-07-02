@@ -72,7 +72,7 @@ public class AppInit extends AppIntro2 {
         //Creating dialog box
         AlertDialog alert = builder.create();
         //Setting the title manually
-        alert.setTitle("Skip?");
+        alert.setTitle(getString(R.string.appinit_skip));
         alert.show();
     }
 
@@ -80,22 +80,22 @@ public class AppInit extends AppIntro2 {
     public void onDonePressed(Fragment currentFragment) {
         super.onDonePressed(currentFragment);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("Are you sure that you want to commit those selected options? You can later change them under options")
+        builder.setMessage(R.string.appinit_confirm_done_text)
                 .setCancelable(false)
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener(){
                     public void onClick(DialogInterface dialog, int id) {
                         prefs.edit().putBoolean("firstrun", false).apply(); //Set the flag to false so that init is complete,
 
                         saveToSharedPref(viewModel.getSelectedFaculty().getValue(),
                                 viewModel.getSelectedYear().getValue(), viewModel.getSelectedCourse().getValue(), false); //Gets all the values and sends them to be stored
 
-                        Intent mainIntent = new Intent(AppInit.this,SplashScreen.class);
+                        Intent mainIntent = new Intent(AppInit.this, SplashScreen.class);
                         AppInit.this.startActivity(mainIntent);
                         AppInit.this.finish();
-                        overridePendingTransition(R.anim.fadein,R.anim.fadeout);
+                        overridePendingTransition(R.anim.fadein, R.anim.fadeout);
                     }
                 })
-                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                .setNegativeButton(R.string.no, new DialogInterface.OnClickListener(){
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.cancel(); //Cancels the AlertDialog and let's the user resume AppInit
                     }
@@ -103,7 +103,7 @@ public class AppInit extends AppIntro2 {
         //Creating dialog box
         AlertDialog alert = builder.create();
         //Setting the title manually
-        alert.setTitle("Done?");
+        alert.setTitle(getString(R.string.appinit_title));
         alert.show();
 
     }

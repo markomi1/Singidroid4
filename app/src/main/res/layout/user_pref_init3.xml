@@ -19,30 +19,29 @@
             tools:visibility="visible"
             android:indeterminateTint="#1a09d6"
             android:layout_marginTop="-7dp"/>
-
-    <androidx.appcompat.widget.LinearLayoutCompat
-            android:layout_width="match_parent"
+    <ScrollView
+            android:layout_width="fill_parent"
             android:layout_height="match_parent"
-            android:id="@+id/button_layoutUserInit3"
-            android:orientation="vertical"
+            android:layout_marginBottom="55dp"
     >
-        <ScrollView
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/button_layoutUserInit3"
+                android:orientation="vertical"
         >
 
             <RadioGroup android:id="@+id/toggleGroupUserInit3"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="24dp"
+                        android:layout_marginTop="25dp"
                         android:orientation="vertical"
+                        android:layout_marginBottom="10dp"
             >
-
 
             </RadioGroup>
 
-        </ScrollView>
-
-    </androidx.appcompat.widget.LinearLayoutCompat>
-
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </ScrollView>
 </FrameLayout>

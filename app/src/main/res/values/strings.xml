@@ -2,28 +2,16 @@
     <string name="app_name">Singidroid 4</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="title_activity_settings">Settings</string>
 
     <!-- Preference Titles -->
-    <string name="messages_header">Messages</string>
-    <string name="sync_header">Sync</string>
 
     <!-- Messages Preferences -->
-    <string name="signature_title">Your signature</string>
-    <string name="reply_title">Default reply action</string>
 
     <!-- Sync Preferences -->
-    <string name="sync_title">Sync email periodically</string>
-    <string name="attachment_title">Download incoming attachments</string>
-    <string name="attachment_summary_on">Automatically download attachments for incoming emails</string>
-    <string name="attachment_summary_off">Only download attachments when manually requested</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="vesti">News</string>
     <string name="stranice_predmeta">Subject Page</string>
-    <string name="raspored_predavanja">Schedule</string>
-    <string name="rasporedi_konsultacija">Consultation Schedule</string>
     <string name="stanje_studentsko_racuna">Student Bill State</string>
     <string name="tekuci_racuni">University Bills</string>
     <string name="lokacija_univerziteta_singidunum">Singidunum Univeristy Location</string>
@@ -35,9 +23,7 @@
     <string name="refreshing">Refreshing</string>
     <string name="loading_content_error">Error was encountered while trying to load content</string>
     <string name="back_notification">Tap back button twice in order to exit</string>
-    <string name="appinit_init_skip">Do you want to skip App Init ?
-        settings
-    </string>
+    <string name="appinit_init_skip">"Do you want to skip App Init ? "</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="predmet_dialog_faculty">Faculty:</string>
@@ -47,6 +33,23 @@
     <string name="index_number">Index Number</string>
     <string name="email_subject" translatable="false"/>
     <string name="email" translatable="false"/>
+    <string name="jmbg_less_than_13">JMBG field is less than 13</string>
+    <string name="index_less_than_10">Index field is less than 10</string>
+    <string name="jmbg_field_empty">JMBG field is empty</string>
+    <string name="index_field_empty">Index field is empty</string>
+    <string name="empty_fields_somehow">Some of the field seem to be empty somehow?</string>
+    <string name="do_you_continue">\" Do you want to continue?\"</string>
+    <string name="cert_not_yet_valid">Certificate isn\'t yet valid.</string>
+    <string name="cert_id_missmatch">Certificate ID missmatch.</string>
+    <string name="cert_expired">Certificate expired.</string>
+    <string name="cert_not_trusted">Certificate isn\'t trusted.</string>
+    <string name="cert_error_title">SSL Certificate Error</string>
+    <string name="continue_prompt">Continue</string>
+    <string name="appinit_confirm_done_text">Are you sure that you want to commit those selected options?</string>
+    <string name="appinit_title">Done?</string>
+    <string name="appinit_skip">Skip?</string>
+    <string name="subject_change_title">Change major</string>
+    <string name="storage_request_rationale">For storing downloaded files.</string>
 
     <string-array name="uni_locations">
         <item>Univerzitet Singidunum Danijelova</item>
