@@ -29,7 +29,6 @@ public class AppInit extends AppIntro2 {
         addSlide(InitSlide3.newInstance(R.layout.user_pref_init3));//Init slide 3
         viewModel = new ViewModelProvider(this).get(SharedViewModel.class);
         prefs = getSharedPreferences("SingidroidInitPrefs", MODE_PRIVATE); //Init sharedprefs
-
     }
 
     @Override
@@ -42,22 +41,19 @@ public class AppInit extends AppIntro2 {
     }
 
     @Override
-    public void onSkipPressed(Fragment currentFragment) { //Called when user wants to exit/skip the AppInit, creates dialog that asks the user to confirm the action.
-        super.onSkipPressed(currentFragment); //TODO add localization for the strings
-
+    public void onSkipPressed(Fragment currentFragment) {
+        //Called when user wants to exit/skip the AppInit,
+        // creates dialog that asks the user to confirm the action.
+        super.onSkipPressed(currentFragment);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-
-
         //Setting message manually and performing action on button click
         builder.setMessage(R.string.appinit_init_skip)
                 .setCancelable(false)
                 .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener(){
                     public void onClick(DialogInterface dialog, int id) {
                         prefs.edit().putBoolean("firstrun", false).apply(); //Set the flag to false so that init is complete.
-
-
-                        saveToSharedPref("default", "0", "default", true); //Sets the StudentProf to "default" values only if he skips the AppInit part.
-
+                        //Sets the StudentProf to "default" values only if he skips the AppInit part.
+                        saveToSharedPref("default", "0", "default", true);
                         Intent mainIntent = new Intent(AppInit.this, SplashScreen.class);
                         AppInit.this.startActivity(mainIntent);
                         AppInit.this.finish();
@@ -108,20 +104,12 @@ public class AppInit extends AppIntro2 {
 
     }
 
-  /*  @Override
-    public void onBackPressed() { //Intercept back pressed, so user can't go back or so i can handle it well etc
-        Toast.makeText(getApplicationContext(),"Back pressed",
-                Toast.LENGTH_SHORT).show();
-
-    }*/
-
     public void saveToSharedPref(String faks, String year, String courseid, boolean skipped) {
         SharedPreferences studentPerfs = getSharedPreferences("StudentPrefs", Context.MODE_PRIVATE); //Saves student faculty/year/course choice
         studentPerfs.edit().putBoolean("SkippedInit", skipped).apply();
         studentPerfs.edit().putString("FacultyChoice", faks).apply();
         studentPerfs.edit().putString("YearChoice", year).apply();
         studentPerfs.edit().putString("CourseChoice", courseid).apply();
-
     }
 
     @Override

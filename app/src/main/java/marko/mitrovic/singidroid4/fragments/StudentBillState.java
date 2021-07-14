@@ -77,7 +77,6 @@ public class StudentBillState extends Fragment{
                 }
             }
         });
-
         return view;
     }
 

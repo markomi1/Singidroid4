@@ -221,6 +221,13 @@ public class contactFragment extends Fragment{
             intent.putExtra(Intent.EXTRA_SUBJECT, v.getTag(R.string.email_subject).toString());
             startActivity(Intent.createChooser(intent, "Send Email"));
         });
+        imgView.setOnLongClickListener(v -> {
+            ClipboardManager clipboard = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
+            ClipData clip = ClipData.newPlainText("Copied Email", v.getTag(R.string.email).toString());
+            clipboard.setPrimaryClip(clip);
+            Toast.makeText(getContext(), R.string.copy_email_notif, Toast.LENGTH_SHORT).show();
+            return true;
+        });
     }
 
     private void clickListenersSetter(ImageView imgView) {
@@ -232,9 +239,9 @@ public class contactFragment extends Fragment{
         });
         imgView.setOnLongClickListener(v -> {
             ClipboardManager clipboard = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
-            ClipData clip = ClipData.newPlainText("Copied Text", v.getTag().toString());
+            ClipData clip = ClipData.newPlainText("Copied Number", v.getTag().toString());
             clipboard.setPrimaryClip(clip);
-            Toast.makeText(getContext(), "Copied!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), R.string.copy_phone_number_notif, Toast.LENGTH_SHORT).show();
             return true;
         });
     }

@@ -41,4 +41,9 @@
     <string name="appinit_title">Gotovo?</string>
     <string name="appinit_skip">Preskoči?</string>
     <string name="subject_change_title">Promeni smer</string>
+    <string name="opening_in_browser">Otvaram u veb pretraživaču</string>
+    <string name="button_submit">Pošalji</string>
+    <string name="save_info">Sačuvaj podatke</string>
+    <string name="copy_email_notif">Kopiran email!</string>
+    <string name="copy_phone_number_notif">Kopiran broj telefona!</string>
 </resources>

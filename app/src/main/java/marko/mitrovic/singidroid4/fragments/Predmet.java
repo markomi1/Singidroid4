@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.*;
+import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
@@ -72,34 +73,25 @@ public class Predmet extends Fragment implements SwipeRefreshLayout.OnRefreshLis
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
-
         studentPerfs = this.getActivity().getSharedPreferences("StudentPrefs", Context.MODE_PRIVATE);
         viewModel = new ViewModelProvider(getActivity()).get(SharedViewModel.class); //get repo
         boolean skipped = studentPerfs.getBoolean("SkippedInit", true);
         view = inflater.inflate(R.layout.fragment_predmet_webview, container, false);
 
         if (!skipped) {
-
             courseId = studentPerfs.getString("CourseChoice", "120");
-
             loadPage(courseId);
-
-
         } else {
             predmetSettings = new PredmetSettingsDialog();
             predmetSettings.show(getActivity().getSupportFragmentManager(), "predmetSettings");
             //view = inflater.inflate(R.layout.predmeti_settings_dialog, container, false);
         }
-
         viewModel.getPredmetDialog().observe(getViewLifecycleOwner(), new Observer<String>(){
             @Override
             public void onChanged(String s) {
                 loadPage(s);
             }
         });
-
-
         return view;
     }
 
@@ -130,6 +122,19 @@ public class Predmet extends Fragment implements SwipeRefreshLayout.OnRefreshLis
 
             public void onPageFinished(WebView view, String url) {
                 swipeLayout.setRefreshing(false); //Triggered once the page has been loaded
+            }
+
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                if (Uri.parse(url).getHost().equals(GLOBAL_IP)) {
+                    //open url contents in webview
+                    return false;
+                } else {
+                    Toast.makeText(getContext(), R.string.opening_in_browser, Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                    startActivity(intent);
+                    return true;
+                }
             }
 
             @Override
@@ -180,7 +185,6 @@ public class Predmet extends Fragment implements SwipeRefreshLayout.OnRefreshLis
                             break;
                     }
                     message += getString(R.string.do_you_continue);
-
                     builder.setTitle(R.string.cert_error_title);
                     builder.setMessage(message);
                     builder.setPositiveButton(R.string.continue_prompt, new DialogInterface.OnClickListener(){
@@ -214,13 +218,11 @@ public class Predmet extends Fragment implements SwipeRefreshLayout.OnRefreshLis
                 Log.d(TAG, "backPressed: ");
                 backStatus = echo;
             }
-
             @Override
             @JavascriptInterface
             public void modalNumber(int number) {
                 modalNumber = number;
             }
-
             @Override
             @JavascriptInterface
             public void downloadFile(String fileName, String url) {

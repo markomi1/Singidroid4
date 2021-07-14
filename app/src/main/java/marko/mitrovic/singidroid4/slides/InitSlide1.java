@@ -58,28 +58,20 @@ public class InitSlide1 extends Fragment implements ISlidePolicy{
 
 
     }
-
-
     @Nullable
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(this.layoutResId, container, false);
         progressBar = view.findViewById(R.id.progressbar);
-
-
         return view;
-
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         viewModel = new ViewModelProvider(getActivity()).get(SharedViewModel.class);
-
-
         if (viewModel.getFacultiesArray().getValue() == null) {
             //getFaculties task = new getFaculties(getContext(), "appInit/getFaculties");
-            progressBar.setVisibility(view.VISIBLE);
-
+            progressBar.setVisibility(View.VISIBLE);
             api = AppNetworking.getClient(getContext()).create(ApiCalls.class);
             api.getFaculties().enqueue(new Callback<JsonArray>(){
                 @Override
@@ -87,12 +79,8 @@ public class InitSlide1 extends Fragment implements ISlidePolicy{
                     progressBar.setVisibility(View.INVISIBLE);
                     Log.d("Call", String.valueOf(response.body()));
                     viewModel.setFacultiesArray(response.body());
-
                     AddButton(response.body(), false);
-
-
                 }
-
                 @Override
                 public void onFailure(Call<JsonArray> call, Throwable t) {
                     Log.e("Call_getFaculties", "Failed, dumping stack trace:");
@@ -114,7 +102,6 @@ public class InitSlide1 extends Fragment implements ISlidePolicy{
     @Override
     public boolean isPolicyRespected() {
         return switchState;
-
     }
 
 
@@ -126,21 +113,16 @@ public class InitSlide1 extends Fragment implements ISlidePolicy{
 
 
     public void AddButton(JsonArray toSet, boolean b) {
-
         if (toSet == null) {
             return;
         }
-
         RadioGroup lin = view.findViewById(R.id.toggleGroup);
         int buttonCount = lin.getChildCount();
         if (buttonCount != 0 && b) {
             lin.removeAllViews();
         }
-
-
         for (int i = 0; i < toSet.size(); i++) {
             JsonObject t = toSet.get(i).getAsJsonObject();
-
             ToggleButton newBtn = new ToggleButton(getContext());
             newBtn.setText(t.get("title").getAsString());
             newBtn.setTextOn(t.get("title").getAsString());
@@ -151,11 +133,7 @@ public class InitSlide1 extends Fragment implements ISlidePolicy{
             newBtn.setHeight(60);
             newBtn.setTextColor(Color.parseColor("#ffffff"));
             newBtn.setTextSize(18);
-
-            if (newBtn.getText().toString().equals(toggleID)) {
-                newBtn.setChecked(true);
-            }
-
+            if (newBtn.getText().toString().equals(toggleID)) newBtn.setChecked(true);
             newBtn.setOnClickListener(v -> {
                 RadioGroup radioGroup = (RadioGroup) v.getParent();
                 for (int j = 0; j < radioGroup.getChildCount(); j++) {
@@ -166,20 +144,12 @@ public class InitSlide1 extends Fragment implements ISlidePolicy{
                         viewModel.setSelectedFaculty(toggleButton.getTag().toString()); //Replace with var that'll be used to save to shared pref
                         Log.d("initSlide1", toggleButton.getTag().toString());
                     }
-
                     switchState = true;
                 }
-
             });
-            ;
             lin.addView(newBtn);
             RadioGroup.LayoutParams layoutParams = (RadioGroup.LayoutParams) view.findViewById(newBtn.getId()).getLayoutParams();
             layoutParams.setMargins(70, 50, 70, 0);
-
         }
-
-
-
     }
-
 }

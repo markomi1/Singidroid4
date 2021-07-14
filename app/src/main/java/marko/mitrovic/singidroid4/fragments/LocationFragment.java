@@ -42,7 +42,6 @@ public class LocationFragment extends Fragment implements OnMapReadyCallback,
         noviSad = new LatLng(45.2530986579024, 19.844236965141153);
         nis = new LatLng(43.31872455232555, 21.896026789820684);
         zlatibor = new LatLng(43.728680803488544, 19.704651877755616);
-
     }
 
     @SuppressLint("ResourceAsColor")
@@ -55,7 +54,6 @@ public class LocationFragment extends Fragment implements OnMapReadyCallback,
         mapView.onCreate(savedInstanceState);
         mapView.onResume();
         mapView.getMapAsync(this);//Works only when OnMapReadyCallback is implemented
-
         //Uni location spinner setup
         uniLocationSpinner = view.findViewById(R.id.locationSpinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this.getContext(),
@@ -95,10 +93,6 @@ public class LocationFragment extends Fragment implements OnMapReadyCallback,
                 .position(zlatibor)
                 .title("Centar Zlatibor"));
         googleMap.setOnMarkerClickListener(this);
-//        googleMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(
-//                this.getContext(), R.raw.style_json));
-        //map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(44.78224991433838, 20.479034350409012), 17));
-
     }
 
     @Override

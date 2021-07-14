@@ -54,13 +54,11 @@ public class NewsFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_news, container, false);
-
         viewModel = new ViewModelProvider(getActivity()).get(SharedViewModel.class); //get repo
         RecyclerView recyclerView = view.findViewById(R.id.news_recycler_view);
         studentPerfs = this.getActivity().getSharedPreferences("StudentPrefs", Context.MODE_PRIVATE);
         api = AppNetworking.getClient(getContext()).create(ApiCalls.class);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
-
         RecyclerViewClickListener listener = (view, title, permalink, date, imageUrl, content, imageList) -> {
             Intent intent = new Intent(getActivity(), Article.class);
             intent.putExtra("title", title);
@@ -71,12 +69,9 @@ public class NewsFragment extends Fragment implements SwipeRefreshLayout.OnRefre
             intent.putExtra("imageList", (ArrayList<String>) imageList);
             startActivity(intent);
         };
-
-
         paginationAdapter = new PaginationAdapter(getContext(), listener);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(paginationAdapter);
-
         recyclerView.addOnScrollListener(new PaginationScrollListener(linearLayoutManager){
             @Override
             protected void loadMoreItems() {
@@ -84,7 +79,6 @@ public class NewsFragment extends Fragment implements SwipeRefreshLayout.OnRefre
                 currentPage += 1;
                 loadNextPage(studentPerfs.getString("Categories", "3,4"));
             }
-
             @Override
             public boolean isLastPage() {
                 return isLastPage;
@@ -95,12 +89,8 @@ public class NewsFragment extends Fragment implements SwipeRefreshLayout.OnRefre
                 return isLoading;
             }
         });
-
         loadFirstPage(studentPerfs.getString("Categories", "3,4"), false);
-
         viewModel.getSelectedNewsSource().observe(getViewLifecycleOwner(), s -> loadFirstPage(s, true));
-
-
         return view;
     }
 
@@ -132,7 +122,6 @@ public class NewsFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     }
 
     private void loadFirstPage(String faksID, Boolean refreshing) {
-
         api.getNews(faksID, "0").enqueue(new Callback<List<NewsModel>>(){
             @Override
             public void onResponse(Call<List<NewsModel>> call, Response<List<NewsModel>> response) {
@@ -155,14 +144,12 @@ public class NewsFragment extends Fragment implements SwipeRefreshLayout.OnRefre
                     paginationAdapter.addLoadingFooter();
                 }
             }
-
             @Override
             public void onFailure(Call<List<NewsModel>> call, Throwable t) {
                 Log.e("Call_getNews_0_Page", "Failed, dumping stack trace:");
                 t.printStackTrace();
                 Toast.makeText(view.getContext(), R.string.loading_content_error, Toast.LENGTH_LONG).show();
             }
-
         });
     }
 
@@ -174,11 +161,6 @@ public class NewsFragment extends Fragment implements SwipeRefreshLayout.OnRefre
 
         int swiperColor = Color.parseColor(studentPerfs.getString("Color", "#A8011D"));// Sets it at first run
         swipeLayout.setColorSchemeColors(swiperColor); //Not gonna change the color of it immediately but it'll have a nice animation doing so
-
-
-        //Implement so color of the spinner is the same color as Toolbar!
-        //Implemented it, kinda, need to find a function that's called all the time so i can set the color before onRefresh
-
     }
 
     @Override

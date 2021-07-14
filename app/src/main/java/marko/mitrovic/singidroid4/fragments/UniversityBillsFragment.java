@@ -34,7 +34,6 @@ public class UniversityBillsFragment extends Fragment{
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_university_bills, container, false);
-
         mTableViewGroup = view.findViewById(R.id.billTable);
 
         //This should be pulling data from the API, but eh...
@@ -60,12 +59,9 @@ public class UniversityBillsFragment extends Fragment{
 
     private void addToTable(String facultyName, String bankAccountNumber) {
         View tableView = getActivity().getLayoutInflater().inflate(R.layout.uni_bill_table_row, null);
-
         TextView table_faculty_name = tableView.findViewById(R.id.faculty_name);
         TextView table_bank_number = tableView.findViewById(R.id.bank_number);
-
         tableView.setTag(bankAccountNumber);
-
         tableView.setOnLongClickListener(v -> {
             ClipboardManager clipboard = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
             ClipData clip = ClipData.newPlainText("Copied Text", v.getTag().toString());
@@ -74,9 +70,7 @@ public class UniversityBillsFragment extends Fragment{
             return true;
         });
         table_faculty_name.setText(facultyName);
-
         table_bank_number.setText(bankAccountNumber);
-
         mTableViewGroup.addView(tableView);
     }
 }

@@ -6,12 +6,9 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
-import android.widget.ProgressBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class SplashScreen extends AppCompatActivity {
-
-    private ProgressBar progressBar;
 
     SharedPreferences prefs = null;
     String TAG = "SpashScreenTAG";
@@ -22,10 +19,6 @@ public class SplashScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
         prefs = getSharedPreferences("SingidroidInitPrefs", MODE_PRIVATE);
-        progressBar = (ProgressBar)findViewById(R.id.progressBar_cyclic);
-
-        //progressBar.getProgressDrawable().setColorFilter(Color.RED,android.graphics.PorterDuff.Mode.SRC_IN);
-
         if (prefs.getBoolean("firstrun", true)) { //
 
             runAppInit(); //On first run we run AppInit that does Student profile setup
@@ -34,8 +27,6 @@ public class SplashScreen extends AppCompatActivity {
             Log.d(TAG,"Not first time run");
             runMain(); //This is executed if the app is not run for the fist time.
         }
-
-
     }
 
 

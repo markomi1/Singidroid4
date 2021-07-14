@@ -27,8 +27,7 @@ public interface ApiCalls{
     Call<JsonArray> getNewsSources();
 
 
-    @GET("news/getNews")
-        //TODO Change to POST
+    @POST("news/getNews")
     Call<List<NewsModel>> getNews(@Query("newsSourceCategories") String newsSourceCategories,
                                   @Query("page") String page);
 

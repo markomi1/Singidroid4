@@ -49,7 +49,11 @@
     <string name="appinit_title">Done?</string>
     <string name="appinit_skip">Skip?</string>
     <string name="subject_change_title">Change major</string>
-    <string name="storage_request_rationale">For storing downloaded files.</string>
+    <string name="opening_in_browser">Opening in browser</string>
+    <string name="button_submit">Submit</string>
+    <string name="save_info">Save info</string>
+    <string name="copy_email_notif">Copied email!</string>
+    <string name="copy_phone_number_notif">Copied phone number!</string>
 
     <string-array name="uni_locations">
         <item>Univerzitet Singidunum Danijelova</item>

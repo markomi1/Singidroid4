@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDialogFragment;
 import androidx.core.content.ContextCompat;
@@ -34,12 +35,8 @@ public class NewsFragmentSettingsDialog extends AppCompatDialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         viewModel = new ViewModelProvider(getActivity()).get(SharedViewModel.class); //get repo
         studentPerfs = getActivity().getSharedPreferences("StudentPrefs", Context.MODE_PRIVATE); //Prepare shared preferences
-
-
         LayoutInflater inflater = getActivity().getLayoutInflater();
-
         view = inflater.inflate(R.layout.news_settings_dialog, null);
-
         final JsonArray newsFaculties = viewModel.getNewsFaculties().getValue(); //We get the value from the repo and put it in local var for later use
 
         if (studentPerfs.getString("NewsSource", "").equals("")) {
@@ -61,13 +58,10 @@ public class NewsFragmentSettingsDialog extends AppCompatDialogFragment {
             }
         }
 
-
         builder.setView(view).setTitle(R.string.change_news_source).setPositiveButton(R.string.apply, new DialogInterface.OnClickListener(){ //Making of the popup dialog
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 if (lin.getCheckedRadioButtonId() != -1) { //Checks to see if any button is selected, which it should be, if it isn't somehow it's skipped
-
-
                     String selected = viewModel.getRadioButtonSeleted().getValue(); //We get the selected radio button from the repo
                     for (int i = 0; i < newsFaculties.size(); i++) { // we lope over the JSON file that we received
                         JsonObject t = newsFaculties.get(i).getAsJsonObject();
@@ -80,8 +74,8 @@ public class NewsFragmentSettingsDialog extends AppCompatDialogFragment {
                             studentPerfs.edit().putString("Color", color).apply(); //We save the color used in the shared preferences
                             studentPerfs.edit().putString("NewsSource", newsSource).apply(); //We also save the News Source in the shared preferences
                             studentPerfs.edit().putString("Categories", categories).apply(); //We save the category numbers
+                            Toast.makeText(getContext(), R.string.refreshing, Toast.LENGTH_SHORT).show();
                             viewModel.setSelectedNewsSource(categories);
-
                             break;
                         }
                     }
@@ -93,7 +87,6 @@ public class NewsFragmentSettingsDialog extends AppCompatDialogFragment {
                 //Do nothing
             }
         });
-
         Dialog dialog = builder.create(); //We make a dialog out of builder so we can down below attach custom fadein/fadeout animations
         dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
         return dialog;

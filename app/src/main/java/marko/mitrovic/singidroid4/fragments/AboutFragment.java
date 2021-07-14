@@ -20,13 +20,10 @@ public class AboutFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_about, container, false);
-
         TextView licenseInfo = view.findViewById(R.id.ossLicense);
-
         licenseInfo.setOnClickListener(v -> {
             startActivity(new Intent(this.getActivity(), OssLicensesMenuActivity.class));
         });
-
         return view;
     }
 }
